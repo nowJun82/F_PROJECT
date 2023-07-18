@@ -1,5 +1,7 @@
 package com.moviement.dao;
 
+import java.util.Map;
+
 import com.moviement.container.Container;
 import com.moviement.db.DBConnection;
 import com.moviement.dto.Member;
@@ -22,5 +24,21 @@ public class MemberDao {
 		sb.append(String.format("`name` = '%s' ", member.name));
 
 		return dbConnection.insert(sb.toString());
+	}
+	
+	public Member getMemberByLoginId(String loginId) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(String.format("SELECT * "));
+		sb.append(String.format("FROM `member` "));
+		sb.append(String.format("WHERE loginId = '%s' ", loginId));
+
+		Map<String, Object> memberRow = dbConnection.selectRow(sb.toString());
+
+		if (memberRow.isEmpty()) {
+			return null;
+		}
+
+		return new Member(memberRow);
 	}
 }

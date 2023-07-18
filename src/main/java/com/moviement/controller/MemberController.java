@@ -3,18 +3,20 @@ package com.moviement.controller;
 import java.util.Scanner;
 
 import com.moviement.App;
+import com.moviement.container.Container;
+import com.moviement.dto.Member;
 import com.moviement.service.MemberService;
 
 public class MemberController extends Controller {
 	private Scanner sc;
 	private int selectNum;
 	private MemberService memberService;
-//	private Session session;
+	private Session session;
 
 	public MemberController(Scanner isc) {
 		this.sc = isc;
-//		memberService = Container.memberService;
-//		session = Container.getSession();
+		memberService = Container.memberService;
+		session = Container.getSession();
 	}
 
 	public void doAction(int selectNum) {
@@ -45,26 +47,26 @@ public class MemberController extends Controller {
 
 	public void doLogin() {
 		System.out.printf("ID : ");
-		String loginId = sc.nextLine();
+		String loginId = sc.next();
 		System.out.printf("PW : ");
-		String loginPw = sc.nextLine();
+		String loginPw = sc.next();
 
-//		Member member = memberService.getMemberByLoginId(loginId);
+		Member member = memberService.getMemberByLoginId(loginId);
 //		입력받은 아이디에 해당하는 회원이 존재하는 지
-//		if (member == null) {
-//			System.out.println("해당 회원은 존재하지 않습니다.");
-//			return;
-//		}
-//
-//		if (member.loginPw.equals(loginPw) == false) {
-//			System.out.println("비밀번호가 맞지 않습니다.");
-//			return;
-//		}
-//
-//		session.setLoginedMember(member);
-//		Member loginedMember = session.getLoginedMember();
-//
-//		System.out.printf("로그인 성공! %s님 환영합니다!\n", loginedMember.name);
+		if (member == null) {
+			System.out.println("해당 회원은 존재하지 않습니다.");
+			return;
+		}
+
+		if (member.loginPw.equals(loginPw) == false) {
+			System.out.println("비밀번호가 맞지 않습니다.");
+			return;
+		}
+
+		session.setLoginedMember(member);
+		Member loginedMember = session.getLoginedMember();
+
+		System.out.printf("로그인 성공! %s님 환영합니다!\n", loginedMember.name);
 	}
 
 	private void doJoin() {

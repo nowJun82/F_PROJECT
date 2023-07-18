@@ -3,13 +3,15 @@ package com.moviement.dto;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.moviement.util.Util;
+
 public class Dto {
 	public int id;
 	public String regDate;
 	private HashMap<Object, Object> extra;
 
 	public Dto() {
-		this(0);
+		this(0, Util.getNowDateStr());
 	}
 
 	public Dto(int id, String regDate) {
@@ -33,5 +35,4 @@ public class Dto {
 			}
 		}
 	}
-
 }

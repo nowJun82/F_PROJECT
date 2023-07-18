@@ -3,4 +3,22 @@
   <groupId>Moviement</groupId>
   <artifactId>Moviement</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  
+  <dependencies>
+		<!-- mysql 라이브러리 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.22</version>
+		</dependency>
+
+		<!-- 롬복 라이브러리 -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.26</version>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
 </project>

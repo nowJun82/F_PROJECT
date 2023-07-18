@@ -25,7 +25,7 @@ public class App {
 			System.out.println("4. 영화 추천받기");
 			System.out.println("5. 영화 예매하기");
 			System.out.printf("0. 종료\n\n");
-			System.out.println("선택 : ");
+			System.out.printf("선택 : ");
 			int selectNum = isc.nextInt();
 			System.out.println();
 
@@ -40,7 +40,7 @@ public class App {
 				System.out.println("3. 마이 페이지");
 				System.out.println("9. 이전 단계로");
 				System.out.printf("0. 종료\n\n");
-				System.out.println("선택 : ");
+				System.out.printf("선택 : ");
 				selectNum = isc.nextInt();
 				System.out.println();
 			} else if (1 < selectNum || selectNum > 6) {
