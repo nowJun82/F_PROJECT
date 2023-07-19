@@ -100,6 +100,10 @@ public class MemberController extends Controller {
 	}
 	
 	public void doLogin() {
+		if (Container.getSession().isLogined()) {
+			System.out.println("이미 로그인 되어있습니다.\n");
+			return;
+		}
 		System.out.printf("=== === === L O G I N === === ===\n\n");
 		System.out.printf("아이디 : ");
 		String loginId = sc.next();
@@ -126,6 +130,10 @@ public class MemberController extends Controller {
 	}
 	
 	private void doLogout() {
+		if (Container.getSession().isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.\n");
+			return;
+		}
 		session.setLoginedMember(null);
 		System.out.println("로그아웃 되었습니다.");
 	}
