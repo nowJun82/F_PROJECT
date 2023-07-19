@@ -57,13 +57,10 @@ public class MovieArticleController extends Controller {
 			System.out.printf("%4d| %s\n", movieArticle.id, movieArticle.title);
 		}
 		System.out.println();
-//		while(true) {
-//			System.out.println("9. 이전 단계로 / 0. 종료");
-//		}
 	}
 
 	private void showCommentList() {
-
+		
 	}
 
 	private void doRecommend() {

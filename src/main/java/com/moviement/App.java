@@ -38,19 +38,10 @@ public class App {
 			System.out.println();
 
 			if (selectNum == 0) {
-				System.out.println("저희 MOVIEMENT를 이용해주셔서 감사합니다. 프로그램을 종료합니다.");
+				System.out.println("이용해주셔서 감사합니다. 프로그램을 종료합니다.");
 				break;
 			} else if (selectNum == 1) {
 				controller = memberController;
-				System.out.printf("=== === === MOVIEMENT === === ===\n\n");
-				System.out.println("1. 로그인");
-				System.out.println("2. 회원가입");
-				System.out.println("3. 마이 페이지");
-				System.out.println("9. 이전 단계로");
-				System.out.printf("0. 종료\n\n");
-				System.out.printf("선택 : ");
-				selectNum = isc.nextInt();
-				System.out.println();
 			} else if (1 < selectNum || selectNum > 6) {
 				controller = movieArticleController;
 			} else {

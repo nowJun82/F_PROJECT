@@ -22,59 +22,51 @@ public class MemberController extends Controller {
 	public void doAction(int selectNum) {
 		this.selectNum = selectNum;
 
+		System.out.printf("=== === === M E M B E R === === ===\n\n");
+		System.out.println("1. 회원가입");
+		System.out.println("2. 로그인");
+		System.out.println("3. 로그아웃");
+		System.out.println("4. 마이 페이지");
+		System.out.printf("9. 이전 단계로\n\n");
+		System.out.printf("선택 : ");
+		selectNum = sc.nextInt();
+		System.out.println();
+
 		switch (selectNum) {
 		case 1:
-			doLogin();
-			break;
-		case 2:
 			doJoin();
 			break;
+		case 2:
+			doLogin();
+			break;
 		case 3:
+			doLogout();
+			break;
+		case 4:
 			showMyPage();
 			break;
 		case 9:
-			new App().start();
-			break;
-		case 0:
-			System.out.println("저희 MOVIEMENT를 이용해주셔서 감사합니다. 프로그램을 종료합니다.");
 			break;
 		}
 	}
 
-	private boolean isJoinableLoginId(String loingId) {
+
+	private boolean isJoinableLoginId(String loginId) {
+		Member member = memberService.getMemberByLoginId(loginId);
+
+		if (member == null) {
+			return true;
+		}
 		return false;
 	}
 
-	public void doLogin() {
-		System.out.printf("ID : ");
-		String loginId = sc.next();
-		System.out.printf("PW : ");
-		String loginPw = sc.next();
-
-		Member member = memberService.getMemberByLoginId(loginId);
-//		입력받은 아이디에 해당하는 회원이 존재하는 지
-		if (member == null) {
-			System.out.println("해당 회원은 존재하지 않습니다.");
-			return;
-		}
-
-		if (member.loginPw.equals(loginPw) == false) {
-			System.out.println("비밀번호가 맞지 않습니다.");
-			return;
-		}
-
-		session.setLoginedMember(member);
-		Member loginedMember = session.getLoginedMember();
-
-		System.out.printf("로그인 성공! %s님 환영합니다!\n", loginedMember.name);
-	}
 
 	private void doJoin() {
 		String loginId = null;
 
 		while (true) {
-			System.out.printf("로그인 아이디 : ");
-			loginId = sc.nextLine();
+			System.out.printf("아이디 : ");
+			loginId = sc.next();
 
 			if (isJoinableLoginId(loginId) == false) {
 				System.out.printf("%s(은)는 이미 사용중인 아이디입니다.\n", loginId);
@@ -87,10 +79,10 @@ public class MemberController extends Controller {
 		String loginPwConfirm = null;
 
 		while (true) {
-			System.out.printf("로그인 비번 : ");
-			loginPw = sc.nextLine();
-			System.out.printf("로그인 비번확인 : ");
-			loginPwConfirm = sc.nextLine();
+			System.out.printf("비밀번호 : ");
+			loginPw = sc.next();
+			System.out.printf("비밀번호 확인 : ");
+			loginPwConfirm = sc.next();
 
 			if (loginPw.equals(loginPwConfirm) == false) {
 				System.out.println("비밀번호를 다시 입력해주세요.");
@@ -100,11 +92,42 @@ public class MemberController extends Controller {
 		}
 
 		System.out.printf("이름 : ");
-		String name = sc.nextLine();
+		String name = sc.next();
 
-		memberService.join(loginId, loginPwConfirm, name);
+		memberService.join(loginId, loginPw, name);
 
-		System.out.printf("회원가입이 완료되었습니다. [%s] 님 환영합니다^^\n", name);
+		System.out.printf("%s님, MovieMent 회원이 되신걸 환영합니다 :D\n", name);
+	}
+	
+	public void doLogin() {
+		System.out.printf("=== === === L O G I N === === ===\n\n");
+		System.out.printf("아이디 : ");
+		String loginId = sc.next();
+		System.out.printf("비밀번호 : ");
+		String loginPw = sc.next();
+		System.out.println();
+		
+		Member member = memberService.getMemberByLoginId(loginId);
+		
+		if (member == null) {
+			System.out.println("해당 회원은 존재하지 않습니다.");
+			return;
+		}
+		
+		if (member.loginPw.equals(loginPw) == false) {
+			System.out.println("비밀번호가 맞지 않습니다.");
+			return;
+		}
+		
+		session.setLoginedMember(member);
+		Member loginedMember = session.getLoginedMember();
+		
+		System.out.printf("어서 오세요 %s님, 환영합니다 :D\n\n", loginedMember.name);
+	}
+	
+	private void doLogout() {
+		session.setLoginedMember(null);
+		System.out.println("로그아웃 되었습니다.");
 	}
 
 	private void showMyPage() {

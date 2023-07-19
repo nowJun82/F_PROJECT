@@ -40,10 +40,6 @@ boardId = 3;
 
 SELECT * FROM movieArticle;
 
-DROP DATABASE IF EXISTS `member`;
-CREATE DATABASE `member`;
-USE `member`;
-
 CREATE TABLE `member` (
 	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
