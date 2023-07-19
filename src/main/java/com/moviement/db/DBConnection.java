@@ -1,5 +1,4 @@
 package com.moviement.db;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -42,6 +41,7 @@ public class DBConnection {
 		for (String key : row.keySet()) {
 			return (int) row.get(key);
 		}
+
 		return -1;
 	}
 
@@ -51,6 +51,7 @@ public class DBConnection {
 		for (String key : row.keySet()) {
 			return (String) row.get(key);
 		}
+
 		return "";
 	}
 
@@ -66,6 +67,7 @@ public class DBConnection {
 				return ((boolean) row.get(key));
 			}
 		}
+
 		return false;
 	}
 
@@ -75,6 +77,7 @@ public class DBConnection {
 		if (rows.size() == 0) {
 			return new HashMap<String, Object>();
 		}
+
 		return rows.get(0);
 	}
 
@@ -105,12 +108,14 @@ public class DBConnection {
 						row.put(columnName, value);
 					}
 				}
+
 				rows.add(row);
 			}
 		} catch (SQLException e) {
 			System.err.printf("[SQL 예외, SQL : %s] : %s\n", sql, e.getMessage());
 			e.printStackTrace();
 		}
+
 		return rows;
 	}
 
@@ -124,6 +129,7 @@ public class DBConnection {
 		} catch (SQLException e) {
 			System.err.printf("[SQL 예외, SQL : %s] : %s\n", sql, e.getMessage());
 		}
+
 		return affectedRows;
 	}
 
@@ -137,6 +143,7 @@ public class DBConnection {
 		} catch (SQLException e) {
 			System.err.printf("[SQL 예외, SQL : %s] : %s\n", sql, e.getMessage());
 		}
+
 		return affectedRows;
 	}
 
@@ -147,12 +154,15 @@ public class DBConnection {
 			Statement stmt = connection.createStatement();
 			stmt.execute(sql, Statement.RETURN_GENERATED_KEYS);
 			ResultSet rs = stmt.getGeneratedKeys();
+
 			if (rs.next()) {
 				id = rs.getInt(1);
 			}
+
 		} catch (SQLException e) {
 			System.err.printf("[SQL 예외, SQL : %s] : %s\n", sql, e.getMessage());
 		}
+
 		return id;
 	}
 

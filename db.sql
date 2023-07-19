@@ -14,8 +14,6 @@ CREATE TABLE movieArticle (
 	INDEX boardId (`boardId`)
 );
 
-SELECT * FROM movieArticle;
-
 INSERT INTO movieArticle
 SET regDate = NOW(),
 updateDate = NOW(),

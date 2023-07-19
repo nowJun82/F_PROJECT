@@ -26,8 +26,7 @@ public class MovieArticleDao extends Dao {
 		sb.append(String.format("title = '%s', ", movieArticle.title));
 		sb.append(String.format("body = '%s', ", movieArticle.body));
 		sb.append(String.format("memberId = '%d', ", movieArticle.memberId));
-		sb.append(String.format("boardId = '%d', ", movieArticle.boardId));
-		sb.append(String.format("hit = '%d' ", movieArticle.hit));
+		sb.append(String.format("boardId = '%d' ", movieArticle.boardId));
 
 		return dbConnection.insert(sb.toString());
 	}
@@ -46,7 +45,7 @@ public class MovieArticleDao extends Dao {
 		return movieArticles;
 	}
 
-	public MovieArticle getMovieArticles(int id) {
+	public MovieArticle getMovieArticle(int id) {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(String.format("SELECT * "));

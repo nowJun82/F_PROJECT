@@ -10,7 +10,6 @@ public class MovieArticle extends Dto {
 	public String body;
 	public int memberId;
 	public int boardId;
-	public int hit;
 	
 	public MovieArticle(int memberId, int boardId, String title, String body) {
 		this(memberId, boardId, title, body, 0);
@@ -21,7 +20,6 @@ public class MovieArticle extends Dto {
 		this.boardId = boardId;
 		this.title = title;
 		this.body = body;
-		this.hit = hit;
 	}
 	
 	public MovieArticle(Map<String, Object> row) {
@@ -30,12 +28,8 @@ public class MovieArticle extends Dto {
 		this.body = (String) row.get("body");
 		this.memberId = (int) row.get("memberId");
 		this.boardId = (int) row.get("boardId");
-		this.hit = (int) row.get("hit");
 	}
 
-	public void increaseHit() {
-		hit++;
-	}
 	
 	// 2. 상영 중인 영화 목록 페이지 : movie article
 	// 3. 리뷰 & 평점 페이지 : board

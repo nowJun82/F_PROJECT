@@ -18,6 +18,7 @@ public class MovieArticleController extends Controller {
 	public MovieArticleController(Scanner isc) {
 		this.sc = isc;
 		memberService = Container.memberService;
+		movieArticleService = Container.movieArticleService;
 		session = Container.getSession();
 	}
 
@@ -44,16 +45,20 @@ public class MovieArticleController extends Controller {
 	}
 
 	public void showMovieList() {
-		System.out.println("=== === === MOVIELIST === === ===");
 		List<MovieArticle> forPrintMovieArticles = movieArticleService.getMovieArticles();
-//		
-//		System.out.println("=== === === Movie List === === ===");
-//		for (int i = forPrintMovieArticles.size() - 1; i >= 0; i--) {
-//			MovieArticle movieArticle = forPrintMovieArticles.get(i);
-//			String writerName = memberService.getMemberByNameId(movieArticle.memberId);
-//
-//			System.out.println(" 번호 | 제목");
-//			System.out.printf("%4d|%15s\n", movieArticle.id, movieArticle.title);
+		
+		System.out.printf("=== === === Movie List === === ===\n\n");
+		System.out.println(" 번호 | 제목");
+		for (int i = 0; i <= forPrintMovieArticles.size() - 1; i++) {
+			MovieArticle movieArticle = forPrintMovieArticles.get(i);
+			String writerName = memberService.getMemberByNameId(movieArticle.memberId);
+			
+			
+			System.out.printf("%4d| %s\n", movieArticle.id, movieArticle.title);
+		}
+		System.out.println();
+//		while(true) {
+//			System.out.println("9. 이전 단계로 / 0. 종료");
 //		}
 	}
 

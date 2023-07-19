@@ -2,12 +2,20 @@ package com.moviement;
 
 import java.util.Scanner;
 
+import com.moviement.container.Container;
 import com.moviement.controller.Controller;
 import com.moviement.controller.MemberController;
 import com.moviement.controller.MovieArticleController;
+import com.moviement.db.DBConnection;
 
 public class App {
 	public App() {
+		DBConnection.DB_NAME = "my_first_project";
+		DBConnection.DB_USER = "sbsst";
+		DBConnection.DB_PASSWORD = "sbs123414";
+		DBConnection.DB_PORT = 3306;
+
+		Container.getDBConnection().connect();
 	}
 
 	public void start() {

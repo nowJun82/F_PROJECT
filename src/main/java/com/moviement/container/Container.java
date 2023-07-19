@@ -12,14 +12,14 @@ public class Container {
 	public static DBConnection dbConnection;
 	public static MovieArticleDao movieArticleDao;
 	public static MemberDao memberDao;
-	public static MovieArticleService movieArticeService;
+	public static MovieArticleService movieArticleService;
 	public static MemberService memberService;
 
 	static {
 		memberDao = new MemberDao();
 		memberService = new MemberService();
 		movieArticleDao = new MovieArticleDao();
-		movieArticeService = new MovieArticleService();
+		movieArticleService = new MovieArticleService();
 
 	}
 
