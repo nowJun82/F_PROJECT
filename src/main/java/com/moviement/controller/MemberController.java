@@ -2,7 +2,6 @@ package com.moviement.controller;
 
 import java.util.Scanner;
 
-import com.moviement.App;
 import com.moviement.container.Container;
 import com.moviement.dto.Member;
 import com.moviement.service.MemberService;
@@ -19,7 +18,7 @@ public class MemberController extends Controller {
 		session = Container.getSession();
 	}
 
-	public void doAction(int selectNum) {
+	public void doAction(int selectNum)s {
 		this.selectNum = selectNum;
 
 		System.out.printf("=== === === M E M B E R === === ===\n\n");
@@ -47,9 +46,11 @@ public class MemberController extends Controller {
 			break;
 		case 9:
 			break;
+		default:
+			System.out.println("다시 입력해주세요.");
+			break;
 		}
 	}
-
 
 	private boolean isJoinableLoginId(String loginId) {
 		Member member = memberService.getMemberByLoginId(loginId);
@@ -139,6 +140,9 @@ public class MemberController extends Controller {
 	}
 
 	private void showMyPage() {
-
+		if (Container.getSession().isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.\n");
+			return;
+		}
 	}
 }

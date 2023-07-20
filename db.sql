@@ -14,6 +14,8 @@ CREATE TABLE movieArticle (
 	INDEX boardId (`boardId`)
 );
 
+SELECT * FROM movieArticle;
+
 INSERT INTO movieArticle
 SET regDate = NOW(),
 updateDate = NOW(),
@@ -38,7 +40,37 @@ title = '여름날 우리',
 memberId = 3,
 boardId = 3;
 
+INSERT INTO movieArticle
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '명탐정 코난 : 흑철의 어영',
+`body` = '',
+memberId = 4,
+boardId = 4;
+
+INSERT INTO movieArticle
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '인시디어스 : 빨간 문',
+`body` = '',
+memberId = 5,
+boardId = 5;
+
+INSERT INTO movieArticle
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '범죄도시3',
+`body` = '',
+memberId = 6,
+boardId = 6;
+
 SELECT * FROM movieArticle;
+
+/*
+DROP DATABASE IF EXISTS `member`;
+CREATE DATABASE `member`;
+USE `member`;
+*/
 
 CREATE TABLE `member` (
 	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -46,6 +78,7 @@ CREATE TABLE `member` (
 	updateDate DATETIME NOT NULL,
 	loginId CHAR(100) NOT NULL UNIQUE,
 	loginPw CHAR(100) NOT NULL,
+	nickName CHAR(100) NOT NULL,
 	`name` CHAR(100) NOT NULL
 );
 
@@ -54,86 +87,7 @@ SET regDate = NOW(),
 updateDate = NOW(),
 loginId = 'admin',
 loginPw = 'admin',
+nickName = '운영자',
 `name` = '관리자';
 
 SELECT * FROM `member`;
-
-/*
-CREATE TABLE articleReply (
-	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	regDate DATETIME NOT NULL,
-	updateDate DATETIME NOT NULL,
-	`body` CHAR(100) NOT NULL,
-	memberId INT(1) UNSIGNED NOT NULL,
-	articleId INT(1) UNSIGNED NOT NULL,
-	INDEX articleId (`articleId`)
-);
-
-INSERT INTO articleReply
-SET regDate = NOW(),
-updateDate = NOW(),
-`body` = '댓글1',
-memberId = '1',
-articleId = '관리자';
-
-INSERT INTO articleReply
-SET regDate = NOW(),
-updateDate = NOW(),
-`body` = '댓글2',
-memberId = '2',
-articleId = 'uesr1';
-
-INSERT INTO articleReply
-SET regDate = NOW(),
-updateDate = NOW(),
-`body` = '댓글3',
-memberId = '3',
-articleId = 'user2';
-
-CREATE TABLE `member` (
-	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	regDate DATETIME NOT NULL,
-	updateDate DATETIME NOT NULL,
-	loginId CHAR(100) NOT NULL UNIQUE,
-	loginPw CHAR(100) NOT NULL,
-	`name` CHAR(100) NOT NULL
-);
-
-INSERT INTO `member`
-SET regDate = NOW(),
-updateDate = NOW(),
-loginId = 'admin',
-loginPw = 'admin',
-`name` = '관리자';
-
-INSERT INTO `member`
-SET regDate = NOW(),
-updateDate = NOW(),
-loginId = 'user1',
-loginPw = 'user1',
-`name` = '유저1';
-
-INSERT INTO `member`
-SET regDate = NOW(),
-updateDate = NOW(),
-loginId = 'user2',
-loginPw = 'user2',
-`name` = '유저2';
-
-CREATE TABLE board (
-	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	regDate DATETIME NOT NULL,
-	updateDate DATETIME NOT NULL,
-	`code` CHAR(100) NOT NULL UNIQUE, # free/notice
-	`name` CHAR(100) NOT NULL # 자유/공지사항
-);
-
-select * from article, articleReply, `member`;
-/*
-INSERT INTO board
-SET regDate = NOW(),
-updateDate = NOW(),
-loginId = 'user2',
-`code` = 'user2',
-`name` = '유저2';
-*/

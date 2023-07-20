@@ -38,7 +38,6 @@ public class MemberDao {
 		if (memberRow.isEmpty()) {
 			return null;
 		}
-
 		return new Member(memberRow);
 	}
 }
