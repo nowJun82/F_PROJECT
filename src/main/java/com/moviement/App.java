@@ -43,7 +43,7 @@ public class App {
 				break;
 			} else if (selectNum == 1) {
 				controller = memberController;
-			} else if (1 < selectNum || selectNum < 4) {
+			} else if (1 < selectNum && selectNum < 4) {
 				controller = movieArticleController;
 			} else if (selectNum == 4) {
 				controller = reviewController;

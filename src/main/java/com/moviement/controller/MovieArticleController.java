@@ -32,9 +32,6 @@ public class MovieArticleController extends Controller {
 		case 3: // 영화 예매 페이지
 			doTicketing();
 			break;
-		case 4: // 리뷰 & 평점 페이지
-			showCommentList();
-			break;
 		case 9:
 			break;
 		default:
@@ -59,10 +56,6 @@ public class MovieArticleController extends Controller {
 		recommend = forPrintMovieArticles.get(recommendIntNum);
 		System.out.printf("\n어떤 걸 볼 지 고민되신다면 %s(은)는 어떠세요?\n", recommend.title);
 		System.out.println();
-	}
-
-	private void showCommentList() {
-
 	}
 
 	private void doTicketing() {

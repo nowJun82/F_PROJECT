@@ -18,7 +18,7 @@ public class MemberController extends Controller {
 		session = Container.getSession();
 	}
 
-	public void doAction(int selectNum)s {
+	public void doAction(int selectNum) {
 		this.selectNum = selectNum;
 
 		System.out.printf("=== === === M E M B E R === === ===\n\n");
