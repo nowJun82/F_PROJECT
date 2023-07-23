@@ -9,11 +9,9 @@ import com.moviement.db.DBConnection;
 import com.moviement.dto.MovieArticle;
 
 public class MovieArticleDao extends Dao {
-//	public List<MovieArticles> movieArticles;
 	private DBConnection dbConnection;
 
 	public MovieArticleDao() {
-//		movieArticles = new ArrayList<>();
 		dbConnection = Container.getDBConnection();
 	}
 
@@ -49,7 +47,7 @@ public class MovieArticleDao extends Dao {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(String.format("SELECT * "));
-		sb.append(String.format("FROM article "));
+		sb.append(String.format("FROM movieArticle "));
 		sb.append(String.format("WHERE id = '%d' ", id));
 
 		Map<String, Object> row = dbConnection.selectRow(sb.toString());
@@ -59,34 +57,4 @@ public class MovieArticleDao extends Dao {
 		}
 		return new MovieArticle(row);
 	}
-
-//	public List<MovieArticle> getForPrintMovieArticles() {
-//			List<MovieArticle> forPrintMovieArticles = new ArrayList<>();
-//
-//			if (searchkeyword.length() > 0) {
-//				for (MovieArticle movieArticle : movieArticles) {
-//					if (movieArticle.title.contains(searchkeyword)) {
-//						forPrintArticles.add(movieArticle);
-//					}
-//				}
-//			}
-//			return forPrintArticles;
-//		}return movieArticles;
-//}
-
-//	public Board getBoard(int id) {
-//		StringBuilder sb = new StringBuilder();
-//
-//		sb.append(String.format("SELECT * "));
-//		sb.append(String.format("FROM `board` "));
-//		sb.append(String.format("WHERE id = '%d' ", id));
-//
-//		Map<String, Object> row = dbConnection.selectRow(sb.toString());
-//
-//		if (row.isEmpty()) {
-//			return null;
-//		}
-//
-//		return new Board(row);
-//	}
 }

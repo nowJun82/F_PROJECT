@@ -12,7 +12,11 @@ public class ReviewService {
 	public ReviewService() {
 		reviewDao = Container.reviewDao;
 	}
-
+	
+	public Review getReview(int id) {
+		return reviewDao.getReview(id);
+	}
+	
 	public List<Review> getForPrintReivews() {
 		return reviewDao.getReviews();
 	}

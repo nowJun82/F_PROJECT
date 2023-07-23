@@ -47,7 +47,7 @@ public class MemberController extends Controller {
 		case 9:
 			break;
 		default:
-			System.out.println("다시 입력해주세요.");
+			System.out.println("다시 입력해주세요.\n");
 			break;
 		}
 	}
@@ -97,7 +97,7 @@ public class MemberController extends Controller {
 
 		memberService.join(loginId, loginPw, name);
 
-		System.out.printf("%s님, MovieMent 회원이 되신걸 환영합니다 :D\n", name);
+		System.out.printf("\n%s님, MovieMent 회원이 되신걸 환영합니다 :D\n\n", name);
 	}
 	
 	public void doLogin() {

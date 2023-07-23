@@ -73,6 +73,7 @@ CREATE TABLE `member` (
 	updateDate DATETIME NOT NULL,
 	loginId CHAR(100) NOT NULL UNIQUE,
 	loginPw CHAR(100) NOT NULL,
+	memberId INT(10) NOT NULL,
 	`name` CHAR(100) NOT NULL
 );
 
@@ -81,7 +82,16 @@ SET regDate = NOW(),
 updateDate = NOW(),
 loginId = 'admin',
 loginPw = 'admin',
+memberId = 1,
 `name` = '관리자';
+
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'user1',
+loginPw = 'user1',
+memberId = 2,
+`name` = '홍길동';
 
 SELECT * FROM `member`;
 
@@ -99,7 +109,7 @@ CREATE TABLE review (
 INSERT INTO review
 SET regDate = NOW(),
 updateDate = NOW(),
-title = '재밌었어요',
+title = '범죄도시3',
 `body` = '오늘 범죄도시3 보고 왔는데, 너무 재밌었어요',
 boardId = 1,
 `name` = '홍길동',
@@ -108,10 +118,10 @@ grades = 4.8;
 INSERT INTO review
 SET regDate = NOW(),
 updateDate = NOW(),
-title = '꼭 보세요 진짜 감동이에요ㅠㅠ',
+title = '엘리멘탈',
 `body` = '엘리멘탈 진짜 최고ㅠㅠㅠㅠ',
-boardId = 1,
+boardId = 2,
 `name` = '홍길동',
-grades = 4.8;
+grades = 5.0;
 
 SELECT * FROM review;
