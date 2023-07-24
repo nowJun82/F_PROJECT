@@ -1,5 +1,6 @@
 package com.moviement.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -95,17 +96,16 @@ public class MovieArticleController extends Controller {
 				System.out.println();
 			}
 			String selectSeat;
-			StringBuilder sb = new StringBuilder();
-
+			
+			String[] seatArr = new String[persons];
 			System.out.println("\n예매를 원하는 좌석을 한 개씩 입력해주세요.");
-			for (int i = 1; i <= persons; i++) {
-				System.out.printf("%d. 입력 : ", i);
+			for (int i = 0; i < persons; i++) {
+				System.out.printf("%d. 입력 : ", i+1);
 				selectSeat = sc.next();
-				sb.append(selectSeat + ", ");
+				seatArr[i] = selectSeat;
 			}
-			sb.deleteCharAt(sb.length() - 2);
 			System.out.println();
-			System.out.printf("선택하신 좌석은 %s입니다.\n\n", sb);
+			System.out.printf("선택하신 좌석은 %s입니다.\n\n", Arrays.toString(seatArr));
 			System.out.println("1. 예매하기");
 			System.out.println("9. 이전 단계로\n");
 			System.out.print("입력 : ");
@@ -113,7 +113,7 @@ public class MovieArticleController extends Controller {
 
 			switch (yesOrNo) {
 			case 1:	// 여기서 진짜 예매 진행
-				System.out.println("dddd\n");
+				Container.seatService.doTicketing(seatArr);
 				break;
 			case 9:
 				System.out.println("초기 화면으로 돌아갑니다.\n");

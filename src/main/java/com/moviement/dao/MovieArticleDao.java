@@ -18,7 +18,7 @@ public class MovieArticleDao extends Dao {
 	public int write(MovieArticle movieArticle) {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(String.format("INSERT INTO article "));
+		sb.append(String.format("INSERT INTO movieArticle "));
 		sb.append(String.format("SET regDate = NOW(), "));
 		sb.append(String.format("updateDate = NOW(), "));
 		sb.append(String.format("title = '%s', ", movieArticle.title));

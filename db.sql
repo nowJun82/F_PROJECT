@@ -125,3 +125,11 @@ boardId = 2,
 grades = 5.0;
 
 SELECT * FROM review;
+
+CREATE TABLE seats (
+	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	regDate DATETIME NOT NULL,
+	title CHAR(100) NOT NULL
+);
+
+SELECT * FROM seats;
