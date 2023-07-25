@@ -88,7 +88,6 @@ public class ReviewController extends Controller {
 		System.out.println();
 		System.out.println("영화 선택 : ");
 		int choiceMovieArticleBoardId = sc.nextInt();
-		
 	}
 
 	public void doModify() {
