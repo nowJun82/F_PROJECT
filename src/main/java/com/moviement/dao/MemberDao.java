@@ -21,7 +21,6 @@ public class MemberDao {
 		sb.append(String.format("updateDate = NOW(), "));
 		sb.append(String.format("loginId = '%s', ", member.loginId));
 		sb.append(String.format("loginPw = '%s', ", member.loginPw));
-		sb.append(String.format("memberId = '%d', ", member.memberId));
 		sb.append(String.format("`name` = '%s' ", member.name));
 
 		return dbConnection.insert(sb.toString());
@@ -40,5 +39,65 @@ public class MemberDao {
 			return null;
 		}
 		return new Member(memberRow);
+	}
+	
+	public Member getMemberByEmail(String Email) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(String.format("SELECT * "));
+		sb.append(String.format("FROM `member` "));
+		sb.append(String.format("WHERE Email = '%s' ", Email));
+
+		Map<String, Object> memberRow = dbConnection.selectRow(sb.toString());
+
+		if (memberRow.isEmpty()) {
+			return null;
+		}
+		return new Member(memberRow);
+	}
+	
+	public Member getMemberBynickName(String nickName) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(String.format("SELECT * "));
+		sb.append(String.format("FROM `member` "));
+		sb.append(String.format("WHERE nickName = '%s' ", nickName));
+
+		Map<String, Object> memberRow = dbConnection.selectRow(sb.toString());
+
+		if (memberRow.isEmpty()) {
+			return null;
+		}
+		return new Member(memberRow);
+	}
+
+	public int modifyEmail(String Email) { //modify(int id, String Email)
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(String.format("UPDATE `member` "));  //UPDATE `member`
+		sb.append(String.format("SET updateDate = NOW(), ")); // SET updateDate = NOW(), ""
+		sb.append(String.format("Email = '%s' ", Email)); // Email = '%s', ",Email
+		
+		return dbConnection.update(sb.toString());
+	}
+
+	public int modifyLoginPw(String loginPw) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(String.format("UPDATE `member` "));  //UPDATE `member`
+		sb.append(String.format("SET updateDate = NOW(), ")); // SET updateDate = NOW(), ""
+		sb.append(String.format("loginPw = '%s' ", loginPw)); // Email = '%s', ",Email
+		
+		return dbConnection.update(sb.toString());
+	}
+
+	public int modifyNickName(String nickName) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(String.format("UPDATE `member` "));  //UPDATE `member`
+		sb.append(String.format("SET updateDate = NOW(), ")); // SET updateDate = NOW(), ""
+		sb.append(String.format("nickName = '%s' ", nickName)); // Email = '%s', ",Email
+		
+		return dbConnection.update(sb.toString());
 	}
 }

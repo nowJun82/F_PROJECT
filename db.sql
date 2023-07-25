@@ -4,12 +4,12 @@ CREATE DATABASE my_first_project;
 
 USE my_first_project;
 
+DROP TABLE IF EXISTS movieArticle;
+
 CREATE TABLE movieArticle (
 	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
-	updateDate DATETIME NOT NULL,
 	title CHAR(100) NOT NULL,
-	`body` CHAR(100) NOT NULL,
 	memberId INT(1) UNSIGNED NOT NULL,
 	boardId INT(1) UNSIGNED NOT NULL,
 	INDEX boardId (`boardId`)
@@ -18,50 +18,38 @@ CREATE TABLE movieArticle (
 SELECT * FROM movieArticle;
 
 INSERT INTO movieArticle
-SET regDate = NOW(),
-updateDate = NOW(),
-title = '미션 임파서블 : 데드 레코닝',
-`body` = '',
+SET regDate = '2023-05-31',
+title = '범죄도시3',
 memberId = 1,
 boardId = 1;
 
 INSERT INTO movieArticle
-SET regDate = NOW(),
-updateDate = NOW(),
+SET regDate = '2023-06-14',
 title = '엘리멘탈',
-`body` = '',
 memberId = 2,
 boardId = 2;
 
 INSERT INTO movieArticle
-SET regDate = NOW(),
-updateDate = NOW(),
+SET regDate = '2023-06-28',
 title = '여름날 우리',
-`body` = '',
 memberId = 3,
 boardId = 3;
 
 INSERT INTO movieArticle
-SET regDate = NOW(),
-updateDate = NOW(),
-title = '명탐정 코난 : 흑철의 어영',
-`body` = '',
+SET regDate = '2023-07-12',
+title = '미션 임파서블 : 데드 레코닝',
 memberId = 4,
 boardId = 4;
 
 INSERT INTO movieArticle
-SET regDate = NOW(),
-updateDate = NOW(),
+SET regDate = '2023-07-19',
 title = '인시디어스 : 빨간 문',
-`body` = '',
 memberId = 5,
 boardId = 5;
 
 INSERT INTO movieArticle
-SET regDate = NOW(),
-updateDate = NOW(),
-title = '범죄도시3',
-`body` = '',
+SET regDate = '2023-07-20',
+title = '명탐정 코난 : 흑철의 어영',
 memberId = 6,
 boardId = 6;
 
@@ -72,8 +60,9 @@ CREATE TABLE `member` (
 	regDate DATETIME NOT NULL,
 	updateDate DATETIME NOT NULL,
 	loginId CHAR(100) NOT NULL UNIQUE,
+	Email CHAR(100) NOT NULL UNIQUE,
+	nickName CHAR(100) NOT NULL UNIQUE,
 	loginPw CHAR(100) NOT NULL,
-	memberId INT(10) NOT NULL,
 	`name` CHAR(100) NOT NULL
 );
 
@@ -82,16 +71,9 @@ SET regDate = NOW(),
 updateDate = NOW(),
 loginId = 'admin',
 loginPw = 'admin',
-memberId = 1,
+Email = 'admin',
+nickName = 'admin',
 `name` = '관리자';
-
-INSERT INTO `member`
-SET regDate = NOW(),
-updateDate = NOW(),
-loginId = 'user1',
-loginPw = 'user1',
-memberId = 2,
-`name` = '홍길동';
 
 SELECT * FROM `member`;
 
@@ -126,10 +108,13 @@ grades = 5.0;
 
 SELECT * FROM review;
 
+DROP TABLE IF EXISTS seats;
+
 CREATE TABLE seats (
 	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
-	title CHAR(100) NOT NULL
+	title CHAR(100) NOT NULL,
+	nickName CHAR(100) NOT NULL
 );
 
 SELECT * FROM seats;

@@ -29,7 +29,7 @@ public class ReviewController extends Controller {
 	public void doAction(int selectNum) {
 		this.selectNum = selectNum;
 
-		if (selectNum == 4) {
+		if (selectNum == 3) {
 			showCommentList();
 		}
 	}

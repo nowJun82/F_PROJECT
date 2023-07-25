@@ -17,11 +17,19 @@ public class ReviewService {
 		return reviewDao.getReview(id);
 	}
 	
-	public List<Review> getForPrintReivews() {
-		return reviewDao.getReviews();
+	public Review getForPrintReview(int reviewId) {
+		return reviewDao.getForPrintReview(reviewId);
+	}
+	
+	public List<Review> getForPrintReviews(String nickName) {
+		return reviewDao.getForPrintReviews(nickName);
 	}
 
 	public List<Review> getReviews() {
 		return reviewDao.getReviews();
+	}
+	
+	public void modifyReview(int id, String body, float grades) {
+		reviewDao.modifyReview(id, body, grades);
 	}
 }

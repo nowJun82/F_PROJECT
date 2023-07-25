@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.moviement.container.Container;
 import com.moviement.dao.SeatDao;
+import com.moviement.dto.Member;
 import com.moviement.dto.Seat;
 
 public class SeatService {
@@ -15,6 +16,10 @@ public class SeatService {
 
 	public List<Seat> getForPrintSeats() {
 		return seatDao.getSeats();
+	}
+	
+	public List<Seat> getForPrintSeats(String nickName) {
+		return seatDao.getForPrintSeats(nickName);
 	}
 
 	public int doTicketing(String[] titles) {

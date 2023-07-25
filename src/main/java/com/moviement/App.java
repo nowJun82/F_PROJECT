@@ -29,10 +29,9 @@ public class App {
 			Controller controller = null;
 
 			System.out.printf("=== === === MOVIEMENT === === ===\n\n");
-			System.out.println("1. 로그인 & 회원가입");
-			System.out.println("2. 상영 중인 영화 목록 & 추천");
-			System.out.println("3. 영화 예매하기");
-			System.out.println("4. 리뷰 & 평점");
+			System.out.println("1. 회원 페이지");
+			System.out.println("2. 영화 페이지");
+			System.out.println("3. 리뷰 페이지");
 			System.out.printf("0. 종료\n\n");
 			System.out.printf("선택 : ");
 			int selectNum = isc.nextInt();
@@ -43,9 +42,9 @@ public class App {
 				break;
 			} else if (selectNum == 1) {
 				controller = memberController;
-			} else if (1 < selectNum && selectNum < 4) {
+			} else if (1 < selectNum && selectNum < 3) {
 				controller = movieArticleController;
-			} else if (selectNum == 4) {
+			} else if (selectNum == 3) {
 				controller = reviewController;
 			}
 			else {
