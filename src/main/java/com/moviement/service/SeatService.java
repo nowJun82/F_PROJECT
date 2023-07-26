@@ -14,16 +14,16 @@ public class SeatService {
 		seatDao = Container.seatDao;
 	}
 
-	public List<Seat> getForPrintSeats() {
-		return seatDao.getSeats();
+	public List<String> getForPrintSeats() {
+		return seatDao.getForPrintSeats();
 	}
 	
 	public List<Seat> getForPrintSeats(String nickName) {
 		return seatDao.getForPrintSeats(nickName);
 	}
 
-	public int doTicketing(String[] titles) {
-		return seatDao.doTicketing(titles);
+	public int doTicketing(String movieTitle, String[] titles) {
+		return seatDao.doTicketing(movieTitle, titles);
 	}
 
 	public List<Seat> getSeats() {

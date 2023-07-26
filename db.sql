@@ -53,7 +53,7 @@ title = '명탐정 코난 : 흑철의 어영',
 memberId = 6,
 boardId = 6;
 
-SELECT * FROM movieArticle;
+select * from movieArticle;
 
 CREATE TABLE `member` (
 	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -75,9 +75,9 @@ Email = 'admin',
 nickName = 'admin',
 `name` = '관리자';
 
-SELECT * FROM `member`;
+select * from `member`;
 
-CREATE TABLE review (
+create table review (
 	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
 	updateDate DATETIME NOT NULL,
@@ -85,12 +85,12 @@ CREATE TABLE review (
 	`body` CHAR(100) NOT NULL,
 	boardId INT(1) UNSIGNED NOT NULL,
 	`name` CHAR(100) NOT NULL,
-	grades FLOAT(10, 1) NOT NULL
+	grades float(10, 1) NOT NULL
 );
 
-INSERT INTO review
-SET regDate = NOW(),
-updateDate = NOW(),
+insert into review
+set regDate = now(),
+updateDate = now(),
 title = '범죄도시3',
 `body` = '오늘 범죄도시3 보고 왔는데, 너무 재밌었어요',
 boardId = 1,
@@ -108,16 +108,18 @@ grades = 5.0;
 
 SELECT * FROM review;
 
-DROP TABLE IF EXISTS seats;
+delete * from review;
+
+drop table if exists seats;
 
 CREATE TABLE seats (
 	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
-	movieArticle CHAR(100),
-	title CHAR(100) NOT NULL UNIQUE,
+	updateDate DATETIME NOT NULL,
+	seatEnabled BOOL NOT NULL,
+	movieArticle CHAR(100) NOT NULL,
+	seatNum CHAR(100) NOT NULL UNIQUE,
 	nickName CHAR(100) NOT NULL
 );
 
-SELECT * FROM seats;
-
-SELECT * FROM seats;
+select * from seats;

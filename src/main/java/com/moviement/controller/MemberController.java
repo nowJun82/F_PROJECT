@@ -266,7 +266,7 @@ public class MemberController extends Controller {
 		Seat seat;
 		for (int i = 0; i <= getForPrintSeat.size() - 1; i++) {
 			seat = getForPrintSeat.get(i);
-			System.out.printf("%s ", seat.title);
+			System.out.printf("%s ", seat.getTitle());
 		}
 		System.out.println("입니다.\n");
 	}
@@ -367,9 +367,11 @@ public class MemberController extends Controller {
 			}
 			break;
 		}
-
-		memberService.modifyLoginPw(loginPw);
-		System.out.println("\n비밀번호가 변경 되었습니다.\n");
+		
+		if(loginedMember.loginPw.equals(loginPw)) {
+			memberService.modifyLoginPw(loginPw);
+			System.out.println("\n비밀번호가 변경 되었습니다.\n");			
+		}
 	}
 
 	private void changeEmail() {

@@ -15,13 +15,13 @@ public class MovieArticleDao extends Dao {
 		dbConnection = Container.getDBConnection();
 	}
 
-	public int write(MovieArticle movieArticle) {
+	public int doWriteMovieList(MovieArticle movieArticle) {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(String.format("INSERT INTO movieArticle "));
 		sb.append(String.format("SET regDate = NOW(), "));
+		sb.append(String.format("updateDate = NOW(), "));
 		sb.append(String.format("title = '%s', ", movieArticle.title));
-		sb.append(String.format("memberId = '%d', ", movieArticle.memberId));
 		sb.append(String.format("boardId = '%d' ", movieArticle.boardId));
 
 		return dbConnection.insert(sb.toString());

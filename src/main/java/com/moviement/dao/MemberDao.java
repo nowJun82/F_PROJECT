@@ -78,7 +78,7 @@ public class MemberDao {
 
 		sb.append(String.format("UPDATE `member` "));  //UPDATE `member`
 		sb.append(String.format("SET updateDate = NOW(), ")); // SET updateDate = NOW(), ""
-		sb.append(String.format("Email = '%s' ", Email)); // Email = '%s', ",Email
+		sb.append(String.format("Email = '%s', ", Email)); // Email = '%s', ",Email
 		
 		return dbConnection.update(sb.toString());
 	}
@@ -88,7 +88,7 @@ public class MemberDao {
 
 		sb.append(String.format("UPDATE `member` "));  //UPDATE `member`
 		sb.append(String.format("SET updateDate = NOW(), ")); // SET updateDate = NOW(), ""
-		sb.append(String.format("loginPw = '%s' ", loginPw)); // Email = '%s', ",Email
+		sb.append(String.format("loginPw = '%s', ", loginPw)); // Email = '%s', ",Email
 		
 		return dbConnection.update(sb.toString());
 	}
@@ -98,7 +98,7 @@ public class MemberDao {
 
 		sb.append(String.format("UPDATE `member` "));  //UPDATE `member`
 		sb.append(String.format("SET updateDate = NOW(), ")); // SET updateDate = NOW(), ""
-		sb.append(String.format("nickName = '%s' ", nickName)); // Email = '%s', ",Email
+		sb.append(String.format("nickName = '%s', ", nickName)); // Email = '%s', ",Email
 		
 		return dbConnection.update(sb.toString());
 	}

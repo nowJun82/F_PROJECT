@@ -17,9 +17,9 @@ public class MovieArticleService {
 		return movieArticleDao.getMovieArticles();
 	}
 
-	public int write(int memberId, int boardId, String title, String body) {
-		MovieArticle movieArticle = new MovieArticle(memberId, boardId, title, body);
-		return movieArticleDao.write(movieArticle);
+	public int doWriteMovieList(int boardId, String title) {
+		MovieArticle movieArticle = new MovieArticle(boardId, title);
+		return movieArticleDao.doWriteMovieList(movieArticle);
 	}
 
 	public List<MovieArticle> getMovieArticles() {
