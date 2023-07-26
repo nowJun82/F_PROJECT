@@ -5,21 +5,25 @@ import java.util.Scanner;
 
 import com.moviement.container.Container;
 import com.moviement.dto.Member;
+import com.moviement.dto.MovieArticle;
 import com.moviement.dto.Review;
 import com.moviement.dto.Seat;
 import com.moviement.service.MemberService;
+import com.moviement.service.MovieArticleService;
 import com.moviement.service.ReviewService;
 
 public class MemberController extends Controller {
 	private Scanner sc;
 	private int selectNum;
 	private MemberService memberService;
+	private MovieArticleService movieArticleService;
 	private ReviewService reviewService;
 	private Session session;
 
 	public MemberController(Scanner isc) {
 		this.sc = isc;
 		memberService = Container.memberService;
+		movieArticleService = Container.movieArticleService;
 		reviewService = Container.reviewService;
 		session = Container.getSession();
 	}
@@ -260,15 +264,15 @@ public class MemberController extends Controller {
 			System.out.println("검색결과가 존재하지 않습니다.");
 			return;
 		}
-
-		System.out.printf("=== === === 나의 예매 현황 === === ===\n\n");
-		System.out.print("예매하신 영화의 좌석 번호는 ");
+		
+		System.out.printf("=== === === 나의 예매 현황 === === ===\n");
 		Seat seat;
+
 		for (int i = 0; i <= getForPrintSeat.size() - 1; i++) {
 			seat = getForPrintSeat.get(i);
-			System.out.printf("%s ", seat.getTitle());
+			System.out.printf("\n%2d | %5s | %16s | %s",seat.id, seat.nickName, seat.movieArticle, seat.seatNum);
 		}
-		System.out.println("입니다.\n");
+		System.out.println("\n");
 	}
 
 	private void showReviewList() {
