@@ -17,12 +17,16 @@ public class MovieArticleService {
 		return movieArticleDao.getMovieArticles();
 	}
 
-	public int doWriteMovieList(int boardId, String title) {
-		MovieArticle movieArticle = new MovieArticle(boardId, title);
+	public int doWriteMovieList(String title, String body, int price) {
+		MovieArticle movieArticle = new MovieArticle(title, body, price);
 		return movieArticleDao.doWriteMovieList(movieArticle);
 	}
 
 	public List<MovieArticle> getMovieArticles() {
 		return movieArticleDao.getMovieArticles();
+	}
+	
+	public MovieArticle getMovieArticle(int id) {
+		return movieArticleDao.getMovieArticle(id);
 	}
 }

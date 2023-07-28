@@ -22,7 +22,8 @@ public class MovieArticleDao extends Dao {
 		sb.append(String.format("SET regDate = NOW(), "));
 		sb.append(String.format("updateDate = NOW(), "));
 		sb.append(String.format("title = '%s', ", movieArticle.title));
-		sb.append(String.format("boardId = '%d' ", movieArticle.boardId));
+		sb.append(String.format("`body` = '%s', ", movieArticle.body));
+		sb.append(String.format("price = '%d' ", movieArticle.price));
 
 		return dbConnection.insert(sb.toString());
 	}

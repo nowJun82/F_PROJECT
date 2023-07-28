@@ -51,7 +51,7 @@ public class MovieArticleController extends Controller {
 		for (int i = 0; i <= forPrintMovieArticles.size() - 1; i++) {
 			movieArticle = forPrintMovieArticles.get(i);
 
-			System.out.printf("%3d | %s\n", movieArticle.boardId, movieArticle.title);
+			System.out.printf("%3d | %s\n", movieArticle.id, movieArticle.title);
 		}
 		System.out.println();
 

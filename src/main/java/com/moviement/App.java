@@ -48,7 +48,7 @@ public class App {
 				controller = reviewController;
 			}
 			else {
-				System.out.println("다시 입력해주세요.");
+				System.out.println("다시 입력해주세요.\n");
 				continue;
 			}
 			controller.doAction(selectNum);

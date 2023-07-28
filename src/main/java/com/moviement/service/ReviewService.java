@@ -12,15 +12,15 @@ public class ReviewService {
 	public ReviewService() {
 		reviewDao = Container.reviewDao;
 	}
-	
+
 	public Review getReview(int id) {
 		return reviewDao.getReview(id);
 	}
-	
+
 	public Review getForPrintReview(int reviewId) {
 		return reviewDao.getForPrintReview(reviewId);
 	}
-	
+
 	public List<Review> getForPrintReviews(String nickName) {
 		return reviewDao.getForPrintReviews(nickName);
 	}
@@ -28,8 +28,17 @@ public class ReviewService {
 	public List<Review> getReviews() {
 		return reviewDao.getReviews();
 	}
-	
+
 	public void modifyReview(int id, String body, float grades) {
 		reviewDao.modifyReview(id, body, grades);
+	}
+
+	public int write(String reviewTitle, String body, String name, float grades) {
+		Review review = new Review(reviewTitle, body, name, grades);
+		return reviewDao.doWrite(review);
+	}
+
+	public void delete(int id) {
+		reviewDao.delete(id);
 	}
 }

@@ -17,7 +17,7 @@ public class SeatService {
 	public List<String> getForPrintSeats() {
 		return seatDao.getForPrintSeats();
 	}
-	
+
 	public List<Seat> getForPrintSeats(String nickName) {
 		return seatDao.getForPrintSeats(nickName);
 	}
@@ -28,5 +28,9 @@ public class SeatService {
 
 	public List<Seat> getSeats() {
 		return seatDao.getSeats();
+	}
+
+	public void doDeleteSeat(int id) {
+		seatDao.delete(id);
 	}
 }

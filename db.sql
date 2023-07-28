@@ -9,60 +9,66 @@ DROP TABLE IF EXISTS movieArticle;
 CREATE TABLE movieArticle (
 	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
+	updateDate DATETIME NOT NULL,
 	title CHAR(100) NOT NULL,
-	memberId INT(1) UNSIGNED NOT NULL,
-	boardId INT(1) UNSIGNED NOT NULL,
-	INDEX boardId (`boardId`)
+	`body` CHAR(100) NOT NULL,
+	price INT UNSIGNED NOT NULL
 );
 
 SELECT * FROM movieArticle;
 
 INSERT INTO movieArticle
 SET regDate = '2023-05-31',
+updateDate = NOW(),
 title = '범죄도시3',
-memberId = 1,
-boardId = 1;
+`body` = '범죄 잡는 마동석',
+price = '15000';
 
 INSERT INTO movieArticle
 SET regDate = '2023-06-14',
+updateDate = NOW(),
 title = '엘리멘탈',
-memberId = 2,
-boardId = 2;
+`body` = '4원소들의 열정 넘치는 스토리',
+price = '15000';
 
 INSERT INTO movieArticle
 SET regDate = '2023-06-28',
+updateDate = NOW(),
 title = '여름날 우리',
-memberId = 3,
-boardId = 3;
+`body` = '너에게 풍덩 빠져버렸던 17살 여름',
+price = '15000';
 
 INSERT INTO movieArticle
 SET regDate = '2023-07-12',
+updateDate = NOW(),
 title = '미션 임파서블 : 데드 레코닝',
-memberId = 4,
-boardId = 4;
+`body` = '가장 위험한 작전!',
+price = '15000';
 
 INSERT INTO movieArticle
 SET regDate = '2023-07-19',
+updateDate = NOW(),
 title = '인시디어스 : 빨간 문',
-memberId = 5,
-boardId = 5;
+`body` = '램버트 가족이 다시 겪게 되는 끔찍한 악몽 이야기',
+price = '15000';
 
 INSERT INTO movieArticle
 SET regDate = '2023-07-20',
+updateDate = NOW(),
 title = '명탐정 코난 : 흑철의 어영',
-memberId = 6,
-boardId = 6;
+`body` = '믿고 보는 코난',
+price = '15000';
 
-select * from movieArticle;
+SELECT * FROM movieArticle;
 
 CREATE TABLE `member` (
 	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
 	updateDate DATETIME NOT NULL,
 	loginId CHAR(100) NOT NULL UNIQUE,
-	loginPw CHAR(100) NOT NULL,
 	Email CHAR(100) NOT NULL UNIQUE,
 	nickName CHAR(100) NOT NULL UNIQUE,
+	loginPw CHAR(100) NOT NULL,
 	`name` CHAR(100) NOT NULL
 );
 
@@ -75,25 +81,32 @@ Email = 'admin',
 nickName = 'admin',
 `name` = '관리자';
 
-select * from `member`;
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'user1',
+loginPw = 'user1',
+Email = 'user1',
+nickName = '홍길동',
+`name` = '신동우';
 
-create table review (
+SELECT * FROM `member`;
+
+CREATE TABLE review (
 	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
 	updateDate DATETIME NOT NULL,
 	title CHAR(100) NOT NULL,
 	`body` CHAR(100) NOT NULL,
-	boardId INT(1) UNSIGNED NOT NULL,
 	`name` CHAR(100) NOT NULL,
-	grades float(10, 1) NOT NULL
+	grades FLOAT(10, 1) NOT NULL
 );
 
-insert into review
-set regDate = now(),
-updateDate = now(),
+INSERT INTO review
+SET regDate = NOW(),
+updateDate = NOW(),
 title = '범죄도시3',
 `body` = '오늘 범죄도시3 보고 왔는데, 너무 재밌었어요',
-boardId = 1,
 `name` = '홍길동',
 grades = 4.8;
 
@@ -102,24 +115,78 @@ SET regDate = NOW(),
 updateDate = NOW(),
 title = '엘리멘탈',
 `body` = '엘리멘탈 진짜 최고ㅠㅠㅠㅠ',
-boardId = 2,
 `name` = '홍길동',
-grades = 5.0;
+grades = 1.5;
+
+INSERT INTO review
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '범죄도시3',
+`body` = '노잼ㅠㅠㅠㅠ',
+`name` = 'admin',
+grades = 0.5;
+
+INSERT INTO review
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '여름날 우리',
+`body` = '난 겨울이 조은뎅ㅠㅠㅠㅠ',
+`name` = '신동우',
+grades = 3.7;
+
+INSERT INTO review
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '엘리멘탈',
+`body` = '캬캬캬ㅠㅠㅠㅠ',
+`name` = 'admin',
+grades = 4.1;
+
 
 SELECT * FROM review;
 
-delete * from review;
-
-drop table if exists seats;
+DROP TABLE IF EXISTS seats;
 
 CREATE TABLE seats (
 	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
-	updateDate DATETIME NOT NULL,
-	seatEnabled BOOL NOT NULL,
-	movieArticle CHAR(100) NOT NULL,
-	seatNum CHAR(100) NOT NULL UNIQUE,
+	updatedate DATETIME NOT NULL,
+	movieTitle CHAR(100) NOT NULL,
+	seatNum CHAR(100) NOT NULL,
 	nickName CHAR(100) NOT NULL
 );
 
-select * from seats;
+INSERT INTO seats
+SET regDate = NOW(),
+movieTitle = '범죄도시3',
+seatNum = 'A1',
+nickName = '홍길동';
+
+INSERT INTO seats
+SET regDate = NOW(),
+movieTitle = '엘리멘탈',
+seatNum = 'A2',
+nickName = '홍길동';
+
+INSERT INTO seats
+SET regDate = NOW(),
+movieTitle = '여름날 우리',
+seatNum = 'A3',
+nickName = '홍길순';
+
+INSERT INTO seats
+SET regDate = NOW(),
+movieTitle = '범죄도시3',
+seatNum = 'A4',
+nickName = '홍길순';
+
+SELECT * FROM seats;
+
+/*
+CREATE TABLE seatsTrue (
+	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	regDate DATETIME NOT NULL,
+	updateDate DATETIME NOT NULL,
+	seatEnabled BOOL NOT NULL
+);
+*/

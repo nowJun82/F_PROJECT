@@ -15,6 +15,7 @@ import com.moviement.service.ReviewService;
 public class MemberController extends Controller {
 	private Scanner sc;
 	private int selectNum;
+	private int selectMovieNum;
 	private MemberService memberService;
 	private MovieArticleService movieArticleService;
 	private ReviewService reviewService;
@@ -71,8 +72,8 @@ public class MemberController extends Controller {
 		return false;
 	}
 
-	private boolean isJoinableEmail(String Email) {
-		Member member = memberService.getMemberByLoginId(Email);
+	private boolean isJoinableEmail(String eMail) {
+		Member member = memberService.getMemberByLoginId(eMail);
 
 		if (member == null) {
 			return true;
@@ -96,6 +97,7 @@ public class MemberController extends Controller {
 		}
 		String loginId = null;
 
+		System.out.printf("=== === === J O I N === === ===\n\n");
 		while (true) {
 			System.out.printf("아이디 : ");
 			loginId = sc.next();
@@ -207,143 +209,239 @@ public class MemberController extends Controller {
 			return;
 		}
 
-		System.out.printf("=== === === M Y P A G E === === ===\n\n");
-		System.out.printf("1. 회원정보 수정\n");
-		System.out.printf("2. 나의 예매 현황\n");
-		System.out.printf("3. 나의 리뷰\n");
-		System.out.printf("9. 이전 단계로\n\n");
-		System.out.printf("선택 : ");
+		System.out.print("=== === === M Y P A G E === === ===\n\n");
+		System.out.print("1. 회원정보 수정\n");
+		System.out.print("2. 나의 예매 현황\n");
+		System.out.print("3. 나의 리뷰\n");
+		System.out.print("9. 이전 단계로\n\n");
+		System.out.print("선택 : ");
 		int selectNum = sc.nextInt();
 		System.out.println();
 
-		switch (selectNum) {
-		case 1:
-			doModify();
-			break;
-		case 2: // 예매 현황 구현하기 : Line 254
-			showTicket();
-			break;
-		case 3:
-			showReviewList();
-			break;
-		case 9:
+		while (true) {
+//			if (selectNum == 9) {
+//				break;
+//			}
+			switch (selectNum) {
+			case 1:
+				doModify();
+				break;
+			case 2: // 예매 현황 구현하기 : Line 254
+				showTicket();
+				break;
+			case 3:
+				showReviewList();
+				break;
+			case 9:
+				break;
+			}
 			break;
 		}
 	}
 
 	private void doModify() {
-		while (true) {
-			System.out.println("=== === === 회원 정보 수정 === === ===\n");
-			System.out.printf("1. 비밀번호 변경 \n");
-			System.out.printf("2. 이메일 변경 \n");
-			System.out.printf("3. 닉네임 변경 \n\n");
-			System.out.printf("선택 : ");
-			int selectNum = sc.nextInt();
-			System.out.println();
+		if (Container.getSession().isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.\n");
+		}
 
+		System.out.println("=== === === 회원 정보 수정 === === ===\n");
+		System.out.print("1. 내 정보\n");
+		System.out.print("2. 비밀번호 변경\n");
+		System.out.print("3. 이메일 변경\n");
+		System.out.print("4. 닉네임 변경\n");
+		System.out.print("5. 회원 탈퇴\n");
+		System.out.print("9. 이전 단계로\n\n");
+
+		System.out.print("선택 : ");
+		int selectNum = sc.nextInt();
+		System.out.println();
+
+		while (true) {
 			switch (selectNum) {
 			case 1:
-				changeLoginPw();
+				showMyInfo();
 				break;
 			case 2:
-				changeEmail();
+				changeLoginPw();
 				break;
 			case 3:
+				changeEmail();
+				break;
+			case 4:
 				changeNickName();
+				break;
+			case 5:
+				doDelete();
+				break;
+			case 9:
+				showMyPage();
 				break;
 			}
 			break;
+		}
+	}
+
+	private void showMyInfo() {
+		Member loginedMember = Container.getSession().getLoginedMember();
+		int selectNum;
+
+		System.out.printf("=== === === 내 정보 === === ===\n\n");
+		System.out.printf("가입일 : %s\n", loginedMember.regDate);
+		System.out.printf("이름 : %s\n", loginedMember.name);
+		System.out.printf("로그인 아이디 : %s\n", loginedMember.loginId);
+		System.out.printf("로그인 비밀번호 : %s\n", loginedMember.loginPw);
+		System.out.printf("Email : %s@gmail.com\n", loginedMember.eMail);
+		System.out.printf("닉네임 : %s\n", loginedMember.nickName);
+		System.out.println();
+		System.out.printf("9. 이전 단계로\n");
+
+		System.out.print("입력 : ");
+		selectNum = sc.nextInt();
+		System.out.println();
+
+		while (true) {
+			if (selectNum == 9) {
+				doModify();
+				break;
+			} else {
+				System.out.println("\n 다시 입력해주세요.");
+				continue;
+			}
 		}
 	}
 
 	private void showTicket() {
 		Member loginedMember = Container.getSession().getLoginedMember();
 		List<Seat> getForPrintSeat = Container.seatService.getForPrintSeats(loginedMember.nickName);
-		
+		int selectNum;
+
 		if (getForPrintSeat.size() == 0) {
-			System.out.println("검색결과가 존재하지 않습니다.");
+			System.out.println("검색결과가 존재하지 않습니다.\n");
 			return;
 		}
-		
+
 		System.out.printf("=== === === 나의 예매 현황 === === ===\n");
 		Seat seat;
 
 		for (int i = 0; i <= getForPrintSeat.size() - 1; i++) {
 			seat = getForPrintSeat.get(i);
-			System.out.printf("\n%2d | %5s | %16s | %s",seat.id, seat.nickName, seat.movieArticle, seat.seatNum);
+			selectMovieNum = seat.id;
+			System.out.printf("\n%2d | %5s | %16s | %s", seat.id, seat.nickName, seat.movieTitle, seat.seatNum);
 		}
 		System.out.println("\n");
+
+		while (true) {
+			System.out.println("취소를 원하는 영화의 번호를 입력해주세요.");
+			System.out.print("입력 : ");
+			selectNum = sc.nextInt();
+
+			if (selectNum > selectMovieNum) {
+				System.out.println("\n존재하지 않는 번호입니다. 확인 후 다시 입력해주세요.\n");
+				continue;
+			}
+			break;
+		}
+		System.out.println();
+
+		while (true) {
+			System.out.println("1. 예매 취소");
+			System.out.println("9. 이전 단계로");
+			System.out.print("입력 : ");
+			selectMovieNum = sc.nextInt();
+			if (selectMovieNum != 1 && selectMovieNum != 9) {
+				System.out.println("\n다시 입력하세요.\n");
+				continue;
+			}
+			if (selectMovieNum == 1) {
+				Container.seatService.doDeleteSeat(selectNum);
+				System.out.println("\n예매가 취소 되었습니다.\n");
+				return;
+			}
+			if (selectMovieNum == 9) {
+				return;
+			}
+		}
 	}
 
 	private void showReviewList() {
-		System.out.printf("1.리뷰 내역으로\n");
-		System.out.printf("9. 이전으로");
-
-		int menu = sc.nextInt();
-
-		if (menu == 9) {
+		if (Container.getSession().isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.\n");
 			return;
 		}
-
+		
+		int selectNum;
 		Member loginedMember = Container.getSession().getLoginedMember();
 		List<Review> forPrintReview = Container.reviewService.getForPrintReviews(loginedMember.nickName);
 
 		if (forPrintReview.size() == 0) {
-			System.out.println("검색결과가 존재하지 않습니다.");
+			System.out.println("작성하신 리뷰가 존재하지 않습니다.");
 			return;
 		}
 
-		System.out.printf("=== === === 수정할 리뷰 선택 === === ===\n\n");
+		System.out.printf("=== === === M Y R E V I E W === === ===\n\n");
 		System.out.println(" 번호 | 닉네임 | 평점 | 제목 ");
 
 		Review review;
 		for (int i = 0; i <= forPrintReview.size() - 1; i++) {
 			if (forPrintReview.size() == 0) {
-				System.out.println("리뷰 내역이 없습니다.");
+				System.out.println("작성하신 리뷰가 존재하지 않습니다.\n");
 				return;
 			}
-
 			review = forPrintReview.get(i);
 
-			System.out.printf("%4d|%6s|%4.1f|%s|%s\n", review.id, review.name, review.grades, review.title,
+			System.out.printf(" %2d | %5s | %3.1f | %s | %s \n", review.id, review.name, review.grades, review.title,
 					review.body);
 		}
-
-		System.out.println();
-
-		System.out.printf("리뷰 번호 : ");
-		int reviewId = sc.nextInt();
-
-		Review choiceReview = Container.reviewService.getForPrintReview(reviewId);
-
-		System.out.printf("평점 : ");
-		float grades = sc.nextFloat();
-
-		sc.nextLine();
-
-		System.out.println("내용 : ");
-		String body = sc.nextLine();
-
-		reviewService.modifyReview(choiceReview.id, body, grades);
-
-		System.out.println("리뷰 수정이 완료되었습니다.\n");
+		
+		while (true) {
+			System.out.print("\n1. 리뷰 수정\n");
+			System.out.print("9. 이전 단계로\n");
+			System.out.print("입력 : ");			
+			selectNum = sc.nextInt();
+			System.out.println();
+			if (selectNum == 9) {
+				break;
+			}
+			System.out.println("수정을 원하는 리뷰의 번호를 입력해주세요.");
+			System.out.print("입력 : ");
+			selectNum = sc.nextInt();
+			sc.nextLine();
+			
+			Review choiceReview = Container.reviewService.getForPrintReview(selectNum);
+			
+			System.out.printf("\n현재 내용 : %s\n", choiceReview.body);
+			System.out.printf("수정할 내용 입력 : ");
+			String body = sc.nextLine();
+			System.out.println("\n내용 수정이 완료되었습니다.");
+			
+			System.out.printf("\n현재 평점 : %.1f\n", choiceReview.grades);
+			System.out.printf("수정할 평점 입력 : ");
+			float grades = sc.nextFloat();
+			
+			reviewService.modifyReview(choiceReview.id, body, grades);
+			
+			System.out.println("\n리뷰 수정이 완료되었습니다.\n");
+			break;
+		}
 	}
 
 	private void changeNickName() {
 		Member loginedMember = Container.getSession().getLoginedMember();
-
 		String nickName = null;
 
-		System.out.printf("변경할 닉네임 입력 : ");
-		nickName = sc.next();
+		while (true) {
+			System.out.printf("변경할 닉네임 입력 : ");
+			nickName = sc.next();
+			System.out.println();
 
-		if (isJoinableNickName(nickName) == false) {
-			System.out.println("이미 사용중인 닉네임 입니다.\n");
-			return;
+			if (isJoinableNickName(nickName) == false) {
+				System.out.println("이미 사용중인 닉네임입니다.");
+				continue;
+			}
+			break;
 		}
-
-		memberService.modifyNickName(nickName);
-		System.out.println("\n닉네임이 변경 되었습니다.\n");
+		memberService.modifyNickName(loginedMember.id, nickName);
+		System.out.println("닉네임이 변경 되었습니다.\n");
 	}
 
 	private void changeLoginPw() {
@@ -371,16 +469,12 @@ public class MemberController extends Controller {
 			}
 			break;
 		}
-		
-		if(loginedMember.loginPw.equals(loginPw)) {
-			memberService.modifyLoginPw(loginPw);
-			System.out.println("\n비밀번호가 변경 되었습니다.\n");			
-		}
+		memberService.modifyLoginPw(loginedMember.id, loginPw);
+		System.out.println("\n비밀번호가 변경 되었습니다.\n");
 	}
 
 	private void changeEmail() {
 		Member loginedMember = Container.getSession().getLoginedMember();
-
 		String eMail = null;
 
 		while (true) {
@@ -393,8 +487,44 @@ public class MemberController extends Controller {
 			}
 			break;
 		}
-
-		memberService.modifyEmail(eMail);
+		memberService.modifyEmail(loginedMember.id, eMail);
 		System.out.println("\n이메일이 변경 되었습니다.\n");
+	}
+
+	private void doDelete() {
+		String confirmToDeleteTrueOrNot;
+		if (Container.getSession().isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.\n");
+			return;
+		}
+
+		Member loginedMember = Container.getSession().getLoginedMember();
+		System.out.printf("비밀번호를 입력하세요 : ");
+		String loginPw = sc.next();
+
+		if (loginedMember.loginPw.equals(loginPw) == false) {
+			System.out.println("비밀번호가 틀렸습니다.");
+			return;
+		}
+
+		while (true) {
+			System.err.print("\n회원 탈퇴 시 복구가 불가능하며, 정보는 모두 사라집니다.\n");
+			System.err.print("탈퇴를 원하시면 '회원탈퇴'를 입력해주세요.\n");
+			System.out.print("입력 : ");
+			confirmToDeleteTrueOrNot = sc.next();
+
+			if (confirmToDeleteTrueOrNot.equals("회원탈퇴") == false) {
+				System.out.println("\n다시 입력해주세요.");
+				continue;
+			}
+			if (confirmToDeleteTrueOrNot.equals("회원탈퇴")) {
+				memberService.doDelete(loginedMember.id);
+				loginedMember = null;
+				System.out.println("\n회원 탈퇴가 정상적으로 처리되었습니다. 이용해주셔서 감사합니다.\n");
+				break;
+			}
+			break;
+		}
+
 	}
 }
