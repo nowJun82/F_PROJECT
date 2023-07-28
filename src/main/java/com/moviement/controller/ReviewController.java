@@ -39,12 +39,12 @@ public class ReviewController extends Controller {
 		List<Review> forPrintReviews = reviewService.getReviews();
 		Review review;
 
-		System.out.printf("=== === === R E V I E W === === ===\n\n");
-		System.out.println(" 번호 | 닉네임 | 평점 | 영화 제목 ");
+		System.out.printf("=== === === === R E V I E W === === === ===\n\n");
+		System.out.println(" 번호 | 닉네임 | 평점 | 영화 이름");
 		for (int i = 0; i <= forPrintReviews.size() - 1; i++) {
 			review = forPrintReviews.get(i);
 
-			System.out.printf("%3d |%4s |%4.1f | %s\n", review.id, review.name, review.grades, review.title);
+			System.out.printf("%5d | %3s | %4.1f | %s\n", review.id, review.name, review.grades, review.title);
 		}
 		System.out.println();
 
@@ -100,7 +100,7 @@ public class ReviewController extends Controller {
 
 		System.out.printf("리뷰 내용 : ");
 		String reviewBody = sc.nextLine();
-		reviewService.write(reviewTitle, reviewBody, loginedMember.nickName, grades);
+		reviewService.doWrite(reviewTitle, reviewBody, loginedMember.nickName, grades);
 		System.out.println("\n리뷰가 작성되었습니다. 감사합니다.\n");
 	}
 

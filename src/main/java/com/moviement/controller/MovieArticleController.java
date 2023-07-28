@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import com.moviement.container.Container;
 import com.moviement.dto.MovieArticle;
+import com.moviement.dto.Seat;
 import com.moviement.service.MemberService;
 import com.moviement.service.MovieArticleService;
 import com.moviement.service.SeatService;
@@ -68,7 +69,7 @@ public class MovieArticleController extends Controller {
 				doRecommend();
 				continue;
 			case 2:
-				subTicketing();
+				doTicketing();
 				break;
 			case 9:
 				System.out.println("이전 단계로 돌아갑니다.\n");
@@ -90,7 +91,7 @@ public class MovieArticleController extends Controller {
 		System.out.printf("어떤 걸 볼 지 고민되신다면 '%s'(은)는 어떠세요?\n\n", recommend.title);
 	}
 
-	private void subTicketing() {
+	private void doTicketing() {
 		if (Container.getSession().isLogined() == false) {
 			System.out.println("로그인 후 이용해주세요.\n");
 			return;
@@ -126,31 +127,136 @@ public class MovieArticleController extends Controller {
 					int persons = sc.nextInt();
 					System.out.println();
 
-					// 여기서부터 해결
-					List<String> forPrintGetSeats = seatService.getForPrintSeats();
+					List<Seat> forPrintGetSeats = seatService.getPrintDefaultSeats();
 
-					System.out.print(" === === === === S C R E E N === === === ===\n\n");
+					System.out.print("   | --- --- --- S C R E E N --- --- ---|\nNo |");
+					for (int i = 1; i <= 12; i++) {
+						System.out.printf("%2d ", i);
+					}
+					System.out.print("|\n");
 					int k = 0;
-					for (int i = 0; i < 10; i++) {
-						for (int j = 1; j <= 14; j++) {
-							System.out.printf("%2s ", forPrintGetSeats.get(k));
+					for (int i = 65; i <= 74; i++) {
+						System.out.printf("%2c |", (char) i);
+						for (int j = 1; j <= 12; j++) {
+							if (forPrintGetSeats.get(k).enabledSeat == false) {
+								System.out.print(" □ ");
+							}
+							if (forPrintGetSeats.get(k).enabledSeat == true) {
+								System.out.print(" ■ ");
+							}
 							k++;
 						}
-						System.out.println();
+						System.out.println("|");
 					}
 					String selectSeat;
 					String selectSeats;
 
-					String[] seatArr = new String[persons];
-					System.out.println("\n예매를 원하는 좌석을 한 개씩 입력해주세요.");
+					String[] seatStrArr = new String[persons];
+					char[] seatCharArr = new char[persons];
+					int[] seatIntArr = new int[persons];
+
+					Seat foundEnabled;
+
+					System.out.println("\n예매를 원하는 좌석을 한 개씩 입력해주세요. (□ : 예매 가능 좌석, ■ : 예매 불가 좌석)");
 					for (int i = 0; i < persons; i++) {
 						System.out.printf("%d. 입력 : ", i + 1);
 						selectSeat = sc.next();
 						selectSeats = selectSeat.toUpperCase();
-						seatArr[i] = selectSeats;
+						seatStrArr[i] = selectSeats;
+						seatCharArr[i] = selectSeats.charAt(0);
+						seatIntArr[i] = Integer.parseInt(selectSeats.substring(1));
+
+						if (Character.getNumericValue(seatCharArr[i]) == 11) {
+							seatIntArr[i] = seatIntArr[i] += 12;
+						} else if (Character.getNumericValue(seatCharArr[i]) == 12) {
+							seatIntArr[i] = seatIntArr[i] += 24;
+						} else if (Character.getNumericValue(seatCharArr[i]) == 13) {
+							seatIntArr[i] = seatIntArr[i] += 36;
+						} else if (Character.getNumericValue(seatCharArr[i]) == 14) {
+							seatIntArr[i] = seatIntArr[i] += 48;
+						} else if (Character.getNumericValue(seatCharArr[i]) == 15) {
+							seatIntArr[i] = seatIntArr[i] += 60;
+						} else if (Character.getNumericValue(seatCharArr[i]) == 16) {
+							seatIntArr[i] = seatIntArr[i] += 72;
+						} else if (Character.getNumericValue(seatCharArr[i]) == 17) {
+							seatIntArr[i] = seatIntArr[i] += 84;
+						} else if (Character.getNumericValue(seatCharArr[i]) == 18) {
+							seatIntArr[i] = seatIntArr[i] += 96;
+						} else if (Character.getNumericValue(seatCharArr[i]) == 19) {
+							seatIntArr[i] = seatIntArr[i] += 108;
+						}
+						foundEnabled = seatService.getSeat(seatIntArr[i]);
+
+						if (seatIntArr[i] == foundEnabled.id) {
+							if(foundEnabled.enabledSeat == true) {
+								System.out.printf("선택하신 %s 좌석은 이미 예매가 완료된 좌석입니다. 다시 선택해주세요.\n", seatStrArr[i]);
+								i--;
+								continue;								
+							}
+						}
 					}
-					System.out.println();
-					System.out.printf("선택하신 좌석은 %s입니다.\n\n", Arrays.toString(seatArr));
+
+//					for (int i = 0; i < persons; i++) {
+//						if (Character.getNumericValue(seatCharArr[i]) == 11) {
+//							seatIntArr[i] = seatIntArr[i] += 12;
+//						} else if (Character.getNumericValue(seatCharArr[i]) == 12) {
+//							seatIntArr[i] = seatIntArr[i] += 24;
+//						} else if (Character.getNumericValue(seatCharArr[i]) == 13) {
+//							seatIntArr[i] = seatIntArr[i] += 36;
+//						} else if (Character.getNumericValue(seatCharArr[i]) == 14) {
+//							seatIntArr[i] = seatIntArr[i] += 48;
+//						} else if (Character.getNumericValue(seatCharArr[i]) == 15) {
+//							seatIntArr[i] = seatIntArr[i] += 60;
+//						} else if (Character.getNumericValue(seatCharArr[i]) == 16) {
+//							seatIntArr[i] = seatIntArr[i] += 72;
+//						} else if (Character.getNumericValue(seatCharArr[i]) == 17) {
+//							seatIntArr[i] = seatIntArr[i] += 84;
+//						} else if (Character.getNumericValue(seatCharArr[i]) == 18) {
+//							seatIntArr[i] = seatIntArr[i] += 96;
+//						} else if (Character.getNumericValue(seatCharArr[i]) == 19) {
+//							seatIntArr[i] = seatIntArr[i] += 108;
+//						}
+//					}
+
+					System.out.print("\n   | --- --- --- S C R E E N --- --- ---|\nNo |");
+					for (int i = 1; i <= 12; i++) {
+						System.out.printf("%2d ", i);
+					}
+					System.out.print("|\n");
+					k = 0;
+					int y = 0;
+					for (int i = 65; i <= 74; i++) {
+						System.out.printf("%2c |", (char) i);
+						for (int j = 1; j <= 12; j++) {
+							if (forPrintGetSeats.get(k).enabledSeat == false) {
+								if (y < seatIntArr.length) {
+									if (seatIntArr[y] == forPrintGetSeats.get(k).id) {
+										System.out.print(" ▣ ");
+										y++;
+									} else {
+										System.out.print(" □ ");
+									}
+								} else {
+									System.out.print(" □ ");
+								}
+							} else if (forPrintGetSeats.get(k).enabledSeat == true) {
+								if (y < seatIntArr.length) {
+									if (seatIntArr[y] == forPrintGetSeats.get(k).id) {
+										System.out.print(" ▣ ");
+										y++;
+									} else {
+										System.out.print(" ■ ");
+									}
+								} else {
+									System.out.print(" ■ ");
+								}
+							}
+							k++;
+						}
+						System.out.println("|");
+					}
+
+					System.out.printf("\n선택하신 좌석은 %s입니다.\n\n", Arrays.toString(seatStrArr));
 					System.out.println("1. 예매하기");
 					System.out.println("9. 이전 단계로\n");
 					System.out.print("입력 : ");
@@ -158,8 +264,8 @@ public class MovieArticleController extends Controller {
 					System.out.println("\n감사합니다. 예매가 완료되었습니다. 예매 내역은 마이 페이지를 확인해주세요.\n");
 
 					switch (yesOrNo) {
-					case 1: // 여기서 진짜 예매 진행
-						Container.seatService.doTicketing(str, seatArr);
+					case 1:
+						Container.seatService.doTicketing(str, seatIntArr, seatStrArr);
 						break;
 					case 9:
 						System.out.println("초기 화면으로 돌아갑니다.\n");
@@ -170,63 +276,11 @@ public class MovieArticleController extends Controller {
 					}
 					break;
 				}
-//				doTicketing();
 			} else {
 				System.out.println("다시 입력해주세요.");
 				continue;
 			}
 			break;
 		}
-	}
-
-	private void doTicketing() {
-//		while (true) {
-//			System.out.println("인원을 입력해주세요.");
-//			System.out.print("입력 : ");
-//			int persons = sc.nextInt();
-//			System.out.println();
-//
-//			// 여기서부터 해결
-//			List<String> forPrintGetSeats = seatService.getForPrintSeats();
-//
-//			System.out.print(" === === === === S C R E E N === === === ===\n\n");
-//			int k = 0;
-//			for (int i = 0; i < 10; i++) {
-//				for (int j = 1; j <= 14; j++) {
-//					System.out.printf("%2s ", forPrintGetSeats.get(k));
-//					k++;
-//				}
-//				System.out.println();
-//			}
-//			String selectSeat;
-//
-//			String[] seatArr = new String[persons];
-//			System.out.println("\n예매를 원하는 좌석을 한 개씩 입력해주세요.");
-//			for (int i = 0; i < persons; i++) {
-//				System.out.printf("%d. 입력 : ", i + 1);
-//				selectSeat = sc.next();
-//				seatArr[i] = selectSeat;
-//			}
-//			System.out.println();
-//			System.out.printf("선택하신 좌석은 %s입니다.\n\n", Arrays.toString(seatArr));
-//			System.out.println("1. 예매하기");
-//			System.out.println("9. 이전 단계로\n");
-//			System.out.print("입력 : ");
-//			int yesOrNo = sc.nextInt();
-//			System.out.println("\n감사합니다. 예매가 완료되었습니다. 예매 내역은 마이 페이지를 확인해주세요.\n");
-//
-// 			switch (yesOrNo) {
-//			case 1: // 여기서 진짜 예매 진행
-//				Container.seatService.doTicketing(seatArr);
-//				break;
-//			case 9:
-//				System.out.println("초기 화면으로 돌아갑니다.\n");
-//				break;
-//			default:
-//				System.out.println("다시 입력해주세요.");
-//				continue;
-//			}
-//			break;
-//		}
 	}
 }

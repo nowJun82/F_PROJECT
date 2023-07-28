@@ -28,7 +28,7 @@ public class App {
 		while (true) {
 			Controller controller = null;
 
-			System.out.printf("=== === === MOVIEMENT === === ===\n\n");
+			System.out.printf("=== === === M O V I E M E N T === === ===\n\n");
 			System.out.println("1. 회원 페이지");
 			System.out.println("2. 영화 페이지");
 			System.out.println("3. 리뷰 페이지");

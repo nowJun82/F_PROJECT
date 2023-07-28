@@ -6,20 +6,23 @@ import lombok.Data;
 
 @Data
 public class Seat extends Dto {
-	public String movieTitle;
 	public String seatNum;
+	public String movieTitle;
 	public String nickName;
+	public boolean enabledSeat;
 
-	public Seat(String movieTitle, String seatNum, String nickName) {
-		this.movieTitle = movieTitle;
+	public Seat(String seatNum, String movieTitle, String nickName, boolean enabledSeat) {
 		this.seatNum = seatNum;
+		this.movieTitle = movieTitle;
 		this.nickName = nickName;
+		this.enabledSeat = enabledSeat;
 	}
 
 	public Seat(Map<String, Object> row) {
 		super(row);
-		this.movieTitle = (String) row.get("movieTitle");
 		this.seatNum = (String) row.get("seatNum");
+		this.movieTitle = (String) row.get("movieTitle");
 		this.nickName = (String) row.get("nickName");
+		this.enabledSeat = (boolean) row.get("enabledSeat");
 	}
 }

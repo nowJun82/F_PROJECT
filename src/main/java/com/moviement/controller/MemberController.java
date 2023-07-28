@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import com.moviement.container.Container;
 import com.moviement.dto.Member;
-import com.moviement.dto.MovieArticle;
 import com.moviement.dto.Review;
 import com.moviement.dto.Seat;
 import com.moviement.service.MemberService;
@@ -219,14 +218,11 @@ public class MemberController extends Controller {
 		System.out.println();
 
 		while (true) {
-//			if (selectNum == 9) {
-//				break;
-//			}
 			switch (selectNum) {
 			case 1:
 				doModify();
 				break;
-			case 2: // 예매 현황 구현하기 : Line 254
+			case 2:
 				showTicket();
 				break;
 			case 3:
@@ -320,13 +316,14 @@ public class MemberController extends Controller {
 			return;
 		}
 
-		System.out.printf("=== === === 나의 예매 현황 === === ===\n");
+		System.out.printf("=== === === 나의 예매 현황 === === ===\n\n");
 		Seat seat;
 
+		System.out.print("번호 | 좌석 | 닉네임           | 영화 이름");
 		for (int i = 0; i <= getForPrintSeat.size() - 1; i++) {
 			seat = getForPrintSeat.get(i);
 			selectMovieNum = seat.id;
-			System.out.printf("\n%2d | %5s | %16s | %s", seat.id, seat.nickName, seat.movieTitle, seat.seatNum);
+			System.out.printf("\n%2d | %3s | %8s | %s", seat.id, seat.seatNum, seat.nickName, seat.movieTitle);
 		}
 		System.out.println("\n");
 
@@ -368,7 +365,7 @@ public class MemberController extends Controller {
 			System.out.println("로그인 후 이용해주세요.\n");
 			return;
 		}
-		
+
 		int selectNum;
 		Member loginedMember = Container.getSession().getLoginedMember();
 		List<Review> forPrintReview = Container.reviewService.getForPrintReviews(loginedMember.nickName);
@@ -392,11 +389,11 @@ public class MemberController extends Controller {
 			System.out.printf(" %2d | %5s | %3.1f | %s | %s \n", review.id, review.name, review.grades, review.title,
 					review.body);
 		}
-		
+
 		while (true) {
 			System.out.print("\n1. 리뷰 수정\n");
 			System.out.print("9. 이전 단계로\n");
-			System.out.print("입력 : ");			
+			System.out.print("입력 : ");
 			selectNum = sc.nextInt();
 			System.out.println();
 			if (selectNum == 9) {
@@ -406,20 +403,20 @@ public class MemberController extends Controller {
 			System.out.print("입력 : ");
 			selectNum = sc.nextInt();
 			sc.nextLine();
-			
+
 			Review choiceReview = Container.reviewService.getForPrintReview(selectNum);
-			
+
 			System.out.printf("\n현재 내용 : %s\n", choiceReview.body);
 			System.out.printf("수정할 내용 입력 : ");
 			String body = sc.nextLine();
 			System.out.println("\n내용 수정이 완료되었습니다.");
-			
+
 			System.out.printf("\n현재 평점 : %.1f\n", choiceReview.grades);
 			System.out.printf("수정할 평점 입력 : ");
 			float grades = sc.nextFloat();
-			
+
 			reviewService.modifyReview(choiceReview.id, body, grades);
-			
+
 			System.out.println("\n리뷰 수정이 완료되었습니다.\n");
 			break;
 		}

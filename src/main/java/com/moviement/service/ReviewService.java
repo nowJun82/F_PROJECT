@@ -33,7 +33,7 @@ public class ReviewService {
 		reviewDao.modifyReview(id, body, grades);
 	}
 
-	public int write(String reviewTitle, String body, String name, float grades) {
+	public int doWrite(String reviewTitle, String body, String name, float grades) {
 		Review review = new Review(reviewTitle, body, name, grades);
 		return reviewDao.doWrite(review);
 	}
