@@ -30,6 +30,12 @@ public class MovieArticleController extends Controller {
 
 	public void doAction(int selectNum) {
 		this.selectNum = selectNum;
+
+		if (Container.getSession().isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.\n");
+			return;
+		}
+
 		Member loginedMember = Container.getSession().getLoginedMember();
 
 		if (loginedMember.nickName.equals("관리자")) {
@@ -177,116 +183,107 @@ public class MovieArticleController extends Controller {
 
 					List<MovieSeat> getForPrintSeats = seatService.getPrintSeats(movieTitle);
 
-//					MovieSeat getForPrintMovie = seatService.checkSeat(movieTitle);
+					String[] getPrintSeatsStrArr;
+					getPrintSeatsStrArr = movieSeatToStrArr(getForPrintSeats);
+
+					int[] getPrintSeatsIntArr;
+					getPrintSeatsIntArr = seatNumericCal(getPrintSeatsStrArr, getPrintSeatsStrArr.length);
 
 					System.out.print("   |- --- --- --- --- S C R E E N --- --- --- --- --|\nNo |");
 					for (int i = 1; i <= 12; i++) {
 						System.out.printf("%3d ", i);
 					}
 					System.out.print("|\n");
-					int k = 0;
-					for (int i = 65; i <= 74; i++) {
-						System.out.printf("%2c |", (char) i);
-						for (int j = 1; j <= 12; j++) {
-							try {
-								if (getForPrintSeats.get(k).enabledSeat == true) {
-									System.out.print(" ■ ");
-								}
-							} catch (IndexOutOfBoundsException e) {
+					int y = 0;
+					int c = 65;
+					for (int i = 0; i < 120; i++) {
+						if (i == 0) {
+							System.out.printf("%2c |", (char) c);
+							c++;
+						} else if (i != 0) {
+							if (i % 12 == 0) {
+								System.out.println("|");
+								System.out.printf("%2c |", (char) c);
+								c++;
+							}
+						}
+						if (y < getPrintSeatsIntArr.length) {
+							if (i == getPrintSeatsIntArr[y] - 1) {
+								System.out.print(" ■ ");
+								y++;
+							} else {
 								System.out.print(" □ ");
 							}
-							k++;
-
+						} else {
+							System.out.print(" □ ");
 						}
-						System.out.println("|");
 					}
-					System.out.println("\n예매를 원하는 좌석을 한 개씩 입력해주세요. (□ : 예매 가능 좌석, ■ : 예매 불가 좌석)");
+					System.out.println("|\n");
 
-					String selectSeat;
-					String selectSeats;
-
-					String[] seatStrArr = new String[persons];
-					char[] seatCharArr = new char[persons];
-					int[] seatIntArr = new int[persons];
-
-					MovieSeat foundEnabled = null;
-
-					for (int i = 0; i < persons; i++) {
-						System.out.printf("%d. 입력 : ", i + 1);
-						selectSeat = sc.next();
-						selectSeats = selectSeat.toUpperCase();
-						seatStrArr[i] = selectSeats;
-						seatCharArr[i] = selectSeats.charAt(0);
-						seatIntArr[i] = Integer.parseInt(selectSeats.substring(1));
-
-						/*
-						 * if (Character.getNumericValue(seatCharArr[i]) == 11) { seatIntArr[i] =
-						 * seatIntArr[i] += 12; } else if (Character.getNumericValue(seatCharArr[i]) ==
-						 * 12) { seatIntArr[i] = seatIntArr[i] += 24; } else if
-						 * (Character.getNumericValue(seatCharArr[i]) == 13) { seatIntArr[i] =
-						 * seatIntArr[i] += 36; } else if (Character.getNumericValue(seatCharArr[i]) ==
-						 * 14) { seatIntArr[i] = seatIntArr[i] += 48; } else if
-						 * (Character.getNumericValue(seatCharArr[i]) == 15) { seatIntArr[i] =
-						 * seatIntArr[i] += 60; } else if (Character.getNumericValue(seatCharArr[i]) ==
-						 * 16) { seatIntArr[i] = seatIntArr[i] += 72; } else if
-						 * (Character.getNumericValue(seatCharArr[i]) == 17) { seatIntArr[i] =
-						 * seatIntArr[i] += 84; } else if (Character.getNumericValue(seatCharArr[i]) ==
-						 * 18) { seatIntArr[i] = seatIntArr[i] += 96; } else if
-						 * (Character.getNumericValue(seatCharArr[i]) == 19) { seatIntArr[i] =
-						 * seatIntArr[i] += 108; }
-						 */
-
-						foundEnabled = seatService.getForPrintSeat(movieTitle, selectSeat);
-
-						System.err.println(foundEnabled.enabledSeat);
-
-						if (foundEnabled != null) {
-							System.out.printf("선택하신 %s 좌석은 이미 예매가 완료된 좌석입니다. 다시 선택해주세요.\n", seatStrArr[i]);
-							i--;
-							continue;
-						}
-
-					}
+					String[] seatStrArr = seatNumericCal(movieTitle, persons);
+					int[] seatIntArr = seatNumericCal(seatStrArr, persons);
 
 					System.out.print("\n   |- --- --- --- --- S C R E E N --- --- --- --- --|\nNo |");
 					for (int i = 1; i <= 12; i++) {
 						System.out.printf("%3d ", i);
 					}
 					System.out.print("|\n");
-					k = 0;
-					int y = 0;
-					for (int i = 65; i <= 74; i++) {
-						System.out.printf("%2c |", (char) i);
-						for (int j = 1; j <= 12; j++) {
-							if (foundEnabled.enabledSeat == false) {
-								if (y < seatIntArr.length) {
-									if (seatIntArr[y] == getForPrintSeats.get(k).id) {
-										System.out.print(" ▣ ");
-										y++;
-									} else {
-										System.out.print(" □ ");
-									}
-								} else {
-									System.out.print(" □ ");
-								}
-							} else {
-								System.out.print(" ■ ");
+					int k = 0;
+					y = 0;
+					c = 65;
+					for (int i = 0; i < 120; i++) {
+						if (i == 0) {
+							System.out.printf("%2c |", (char) c);
+							c++;
+						} else if (i != 0) {
+							if (i % 12 == 0) {
+								System.out.println("|");
+								System.out.printf("%2c |", (char) c);
+								c++;
 							}
-							k++;
 						}
-						System.out.println("|");
+						if (y < getPrintSeatsIntArr.length) {
+							if (i == getPrintSeatsIntArr[y] - 1) {
+								System.out.print(" ■ ");
+								y++;
+							} else {
+								System.out.print(" □ ");
+							}
+						} 
+						else if (k < seatIntArr.length) {
+							if (i == seatIntArr[k] - 1) {
+								System.out.print(" ▣ ");
+								k++;
+							} else {
+								System.out.print(" □ ");
+							}
+						} 
+						else {
+							System.out.print(" □ ");
+						}
+//						if (k < seatIntArr.length) {
+//							if (i == seatIntArr[k] - 1) {
+//								System.out.print(" ▣ ");
+//								k++;
+//							} else {
+//								System.out.print(" □ ");
+//							}
+//						} else {
+//							System.out.print(" □ ");
+//						}
 					}
+					System.out.println("|\n");
 
 					System.out.printf("\n선택하신 좌석은 %s입니다.\n\n", Arrays.toString(seatStrArr));
 					System.out.println("1. 예매하기");
 					System.out.println("9. 이전 단계로\n");
 					System.out.print("입력 : ");
 					int yesOrNo = sc.nextInt();
-					System.out.println("\n감사합니다. 예매가 완료되었습니다. 예매 내역은 마이 페이지를 확인해주세요.\n");
 
 					switch (yesOrNo) {
 					case 1:
-						Container.seatService.doTicketing(movieTitle, seatIntArr, seatStrArr);
+						Container.seatService.doTicketing(movieTitle, seatStrArr);
+						System.out.println("\n감사합니다. 예매가 완료되었습니다. 예매 내역은 마이 페이지를 확인해주세요.\n");
 						break;
 					case 9:
 						System.out.println("초기 화면으로 돌아갑니다.\n");
@@ -330,5 +327,78 @@ public class MovieArticleController extends Controller {
 //		sc.nextLine();
 		System.out.println("\n영화 추가를 완료하였습니다.\n");
 		movieArticleService.doWriteMovieList(title, 15000);
+	}
+
+	public String[] seatNumericCal(String movieTitle, int persons) {
+		MovieSeat foundEnabled = null;
+		String selectSeat;
+		String[] seatStrArr = new String[persons];
+
+		System.out.println("\n예매를 원하는 좌석을 한 개씩 입력해주세요. (□ : 예매 가능 좌석, ■ : 예매 불가 좌석)");
+		for (int i = 0; i < persons; i++) {
+			System.out.printf("%d. 입력 : ", i + 1);
+			selectSeat = sc.next().toUpperCase();
+			seatStrArr[i] = selectSeat;
+		}
+
+		foundEnabled = seatService.getForPrintSeat(movieTitle, seatStrArr);
+
+		for (int i = 0; i < persons; i++) {
+			try {
+				if (foundEnabled.seat.equals(seatStrArr[i])) {
+					System.out.printf("\n선택하신 %s 좌석은 이미 예매가 완료된 좌석입니다. 다시 선택해주세요.\n", seatStrArr[i]);
+					i--;
+					seatNumericCal(movieTitle, persons);
+					continue;
+				} else if (foundEnabled.getSeat() == null) {
+					System.out.println("뀨");
+				}
+			} catch (NullPointerException e) {
+				return seatStrArr;
+			}
+		}
+		return null;
+	}
+
+	public int[] seatNumericCal(String[] seatStrArr, int persons) {
+		char[] seatCharArr = new char[persons];
+		int[] seatIntArr = new int[persons];
+
+		for (int i = 0; i < persons; i++) {
+			seatCharArr[i] = seatStrArr[i].charAt(0);
+			seatIntArr[i] = Integer.parseInt(seatStrArr[i].substring(1));
+		}
+
+		for (int i = 0; i < persons; i++) {
+			if (Character.getNumericValue(seatCharArr[i]) == 11) {
+				seatIntArr[i] = seatIntArr[i] += 12;
+			} else if (Character.getNumericValue(seatCharArr[i]) == 12) {
+				seatIntArr[i] = seatIntArr[i] += 24;
+			} else if (Character.getNumericValue(seatCharArr[i]) == 13) {
+				seatIntArr[i] = seatIntArr[i] += 36;
+			} else if (Character.getNumericValue(seatCharArr[i]) == 14) {
+				seatIntArr[i] = seatIntArr[i] += 48;
+			} else if (Character.getNumericValue(seatCharArr[i]) == 15) {
+				seatIntArr[i] = seatIntArr[i] += 60;
+			} else if (Character.getNumericValue(seatCharArr[i]) == 16) {
+				seatIntArr[i] = seatIntArr[i] += 72;
+			} else if (Character.getNumericValue(seatCharArr[i]) == 17) {
+				seatIntArr[i] = seatIntArr[i] += 84;
+			} else if (Character.getNumericValue(seatCharArr[i]) == 18) {
+				seatIntArr[i] = seatIntArr[i] += 96;
+			} else if (Character.getNumericValue(seatCharArr[i]) == 19) {
+				seatIntArr[i] = seatIntArr[i] += 108;
+			}
+		}
+		return seatIntArr;
+	}
+
+	public String[] movieSeatToStrArr(List<MovieSeat> getForPrintSeats) {
+		String[] getPrintSeatsStrArr = new String[getForPrintSeats.size()];
+
+		for (int i = 0; i < getForPrintSeats.size(); i++) {
+			getPrintSeatsStrArr[i] = getForPrintSeats.get(i).seat;
+		}
+		return getPrintSeatsStrArr;
 	}
 }

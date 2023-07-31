@@ -81,13 +81,14 @@ CREATE TABLE `movieSeats` (
   `nickName` char(100) NOT NULL,
   `enabledSeat` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `movieSeats` */
 
 insert  into `movieSeats`(`id`,`regDate`,`updateDate`,`seat`,`movieTitle`,`nickName`,`enabledSeat`) values 
-(1,'2023-07-31 14:09:33','2023-07-31 14:09:35','A1','엘리멘탈','ljj',1),
-(2,'2023-07-31 14:29:53','2023-07-31 14:29:58','A2','엘리멘탈','ljj',1);
+(1,'2023-07-31 14:09:33','2023-07-31 14:09:35','A1','엘리멘탈','이재준',1),
+(2,'2023-07-31 14:29:53','2023-07-31 14:29:58','A2','엘리멘탈','이재준',1),
+(3,'2023-07-31 14:45:18','2023-07-31 14:45:20','B1','엘리멘탈','이재준',1);
 
 /*Table structure for table `review` */
 

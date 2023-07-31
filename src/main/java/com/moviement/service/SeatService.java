@@ -21,12 +21,12 @@ public class SeatService {
 		return seatDao.checkSeat(movieTitle);
 	}
 	
-	public MovieSeat getForPrintSeat(String movieTitle, String selectSeat) {
-		return seatDao.getForPrintSeat(movieTitle, selectSeat);
+	public MovieSeat getForPrintSeat(String movieTitle, String[] seatStrArr) {
+		return seatDao.getForPrintSeat(movieTitle, seatStrArr);
 	}
 
-	public int doTicketing(String movieTitle, int[] seatId, String[] seatNums) {
-		return seatDao.doTicketing(movieTitle, seatId, seatNums);
+	public int doTicketing(String movieTitle, String[] seats) {
+		return seatDao.doTicketing(movieTitle, seats);
 	}
 	
 	public MovieSeat getSeat(int id) {

@@ -319,11 +319,11 @@ public class MemberController extends Controller {
 		System.out.printf("=== === === 나의 예매 현황 === === ===\n\n");
 		MovieSeat seat;
 		
-		System.out.print("번호 | 좌석 | 닉네임           | 영화 이름");
+		System.out.print("번호 | 좌석 |       닉네임 | 영화 이름");
 		for (int i = 0; i <= getForPrintSeat.size() - 1; i++) {
 			seat = getForPrintSeat.get(i);
 			selectMovieNum = seat.id;
-			System.out.printf("\n%2d | %3s | %8s | %s", seat.id, seat.seat, seat.nickName, seat.movieTitle);
+			System.out.printf("\n%3d  | %3s  | %9s | %s", seat.id, seat.seat, seat.nickName, seat.movieTitle);
 		}
 		System.out.println("\n");
 

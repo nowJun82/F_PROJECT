@@ -198,4 +198,4 @@ SELECT * FROM movieSeats;
 
 DROP TABLE IF EXISTS `movieSeats`;
 
-SELECT * FROM movieSeats WHERE movieTitle = '엘리멘탈'
+SELECT * FROM movieSeats WHERE movieTitle = '엘리멘탈' AND enabledSeat = 1;
