@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 import com.moviement.container.Container;
 import com.moviement.dto.Member;
+import com.moviement.dto.MovieSeat;
 import com.moviement.dto.Review;
-import com.moviement.dto.Seat;
 import com.moviement.service.MemberService;
 import com.moviement.service.MovieArticleService;
 import com.moviement.service.ReviewService;
@@ -308,7 +308,7 @@ public class MemberController extends Controller {
 
 	private void showTicket() {
 		Member loginedMember = Container.getSession().getLoginedMember();
-		List<Seat> getForPrintSeat = Container.seatService.getForPrintSeats(loginedMember.nickName);
+		List<MovieSeat> getForPrintSeat = Container.seatService.getForPrintSeats(loginedMember.nickName);
 		int selectNum;
 
 		if (getForPrintSeat.size() == 0) {
@@ -317,13 +317,13 @@ public class MemberController extends Controller {
 		}
 
 		System.out.printf("=== === === 나의 예매 현황 === === ===\n\n");
-		Seat seat;
-
+		MovieSeat seat;
+		
 		System.out.print("번호 | 좌석 | 닉네임           | 영화 이름");
 		for (int i = 0; i <= getForPrintSeat.size() - 1; i++) {
 			seat = getForPrintSeat.get(i);
 			selectMovieNum = seat.id;
-			System.out.printf("\n%2d | %3s | %8s | %s", seat.id, seat.seatNum, seat.nickName, seat.movieTitle);
+			System.out.printf("\n%2d | %3s | %8s | %s", seat.id, seat.seat, seat.nickName, seat.movieTitle);
 		}
 		System.out.println("\n");
 
@@ -351,7 +351,8 @@ public class MemberController extends Controller {
 			}
 			if (selectMovieNum == 1) {
 				Container.seatService.doDeleteSeat(selectNum);
-				System.out.println("\n예매가 취소 되었습니다.\n");
+				seat = getForPrintSeat.get(selectNum);
+				System.out.printf("\n[%s]예매가 취소 되었습니다.\n\n", seat.movieTitle);
 				return;
 			}
 			if (selectMovieNum == 9) {

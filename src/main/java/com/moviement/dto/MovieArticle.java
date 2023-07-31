@@ -10,9 +10,15 @@ public class MovieArticle extends Dto {
 	public String body;
 	public int price;
 	
+	public MovieArticle(String title, int price) {
+		this.title = title;
+		this.price = price;
+	}
+	
 	public MovieArticle(String title, String body, int price) {
 		this.title = title;
 		this.body = body;
+		this.price = price;
 	}
 	
 	public MovieArticle(Map<String, Object> row) {

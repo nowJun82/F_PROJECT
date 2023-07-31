@@ -17,6 +17,11 @@ public class MovieArticleService {
 		return movieArticleDao.getMovieArticles();
 	}
 
+	public int doWriteMovieList(String title, int price) {
+		MovieArticle movieArticle = new MovieArticle(title, price);
+		return movieArticleDao.doWriteMovieList(movieArticle);
+	}
+
 	public int doWriteMovieList(String title, String body, int price) {
 		MovieArticle movieArticle = new MovieArticle(title, body, price);
 		return movieArticleDao.doWriteMovieList(movieArticle);
@@ -25,7 +30,7 @@ public class MovieArticleService {
 	public List<MovieArticle> getMovieArticles() {
 		return movieArticleDao.getMovieArticles();
 	}
-	
+
 	public MovieArticle getMovieArticle(int id) {
 		return movieArticleDao.getMovieArticle(id);
 	}
