@@ -27,13 +27,15 @@ public class SeatDao extends Dao {
 			seat = seats[i];
 
 			StringBuilder sb = new StringBuilder();
-			sb.append(String.format("UPDATE movieSeats "));
-			sb.append(String.format("SET updateDate = NOW(), "));
+			sb.append(String.format("INSERT INTO movieSeats "));
+			sb.append(String.format("SET regDate = NOW(), "));
+			sb.append(String.format("updateDate = NOW(), "));
 			sb.append(String.format("seat = '%s', ", seat));
 			sb.append(String.format("movieTitle = '%s', ", movieTitle));
 			sb.append(String.format("nickName = '%s', ", loginedMember.nickName));
 			sb.append(String.format("enabledSeat = %d; ", 1));
-			dbConnection.update(sb.toString());
+			
+			dbConnection.insert(sb.toString());
 		}
 		return rn;
 	}
@@ -100,21 +102,8 @@ public class SeatDao extends Dao {
 	public int doDelete(int id) {
 		StringBuilder sb = new StringBuilder();
 
-		Member loginedMember = Container.getSession().getLoginedMember();
-		List<MovieSeat> getForPrintSeat = Container.seatService.getForPrintSeats(loginedMember.nickName);
-
-		String mt = getForPrintSeat.get(id).movieTitle;
-
-		sb.append(String.format("UPDATE `%s` ", mt));
-		sb.append(String.format("SET regDate = NOW(), "));
-		sb.append(String.format("updateDate = NOW(), "));
-		sb.append(String.format("seatNum = null, "));
-//		sb.append(String.format("movieTitle = null, "));
-		sb.append(String.format("nickName = null, "));
-		sb.append(String.format("enabledSeat = %d ", 0));
+		sb.append(String.format("DELETE FROM movieSeats "));
 		sb.append(String.format("WHERE id = %d; ", id));
-
-		dbConnection.update(sb.toString());
 
 		return dbConnection.delete(sb.toString());
 	}

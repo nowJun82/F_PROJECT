@@ -283,8 +283,8 @@ public class MemberController extends Controller {
 
 		System.out.printf("=== === === 내 정보 === === ===\n\n");
 		System.out.printf("가입일 : %s\n", loginedMember.regDate);
-		System.out.printf("이름 : %s\n", loginedMember.name);
-		System.out.printf("로그인 아이디 : %s\n", loginedMember.loginId);
+		System.out.printf("이름   : %s\n", loginedMember.name);
+		System.out.printf("아이디 : %s\n", loginedMember.loginId);
 		System.out.printf("로그인 비밀번호 : %s\n", loginedMember.loginPw);
 		System.out.printf("Email : %s@gmail.com\n", loginedMember.eMail);
 		System.out.printf("닉네임 : %s\n", loginedMember.nickName);
@@ -332,7 +332,7 @@ public class MemberController extends Controller {
 			System.out.print("입력 : ");
 			selectNum = sc.nextInt();
 
-			if (selectNum > selectMovieNum) {
+			if (selectNum > getForPrintSeat.size()-1) {
 				System.out.println("\n존재하지 않는 번호입니다. 확인 후 다시 입력해주세요.\n");
 				continue;
 			}
@@ -350,9 +350,11 @@ public class MemberController extends Controller {
 				continue;
 			}
 			if (selectMovieNum == 1) {
-				Container.seatService.doDeleteSeat(selectNum);
 				seat = getForPrintSeat.get(selectNum);
-				System.out.printf("\n[%s]예매가 취소 되었습니다.\n\n", seat.movieTitle);
+				seat.id = selectNum;
+				System.out.printf("selectNum : %d, seat.id : %d, seat.movieTitle : %s", selectNum, seat.id, seat.movieTitle);
+//				Container.seatService.doDeleteSeat(selectNum);
+//				System.out.printf("\n[%s]예매가 취소 되었습니다.\n\n", seat.movieTitle);
 				return;
 			}
 			if (selectMovieNum == 9) {
