@@ -10,6 +10,7 @@ import com.moviement.dto.Review;
 import com.moviement.service.MemberService;
 import com.moviement.service.MovieArticleService;
 import com.moviement.service.ReviewService;
+import com.moviement.service.SeatService;
 
 public class MemberController extends Controller {
 	private Scanner sc;
@@ -18,6 +19,7 @@ public class MemberController extends Controller {
 	private MemberService memberService;
 	private MovieArticleService movieArticleService;
 	private ReviewService reviewService;
+	private SeatService seatService;
 	private Session session;
 
 	public MemberController(Scanner isc) {
@@ -31,13 +33,14 @@ public class MemberController extends Controller {
 	public void doAction(int selectNum) {
 		this.selectNum = selectNum;
 
-		System.out.printf("=== === === M E M B E R === === ===\n\n");
-		System.out.println("1. 회원가입");
-		System.out.println("2. 로그인");
-		System.out.println("3. 로그아웃");
-		System.out.println("4. 마이 페이지");
-		System.out.printf("9. 이전 단계로\n\n");
-		System.out.printf("선택 : ");
+		System.out.printf("┌─M E M B E R ─────────────────────┐\n│%56s│\n", " ");
+		System.out.println("│1. 회원가입                                             │");
+		System.out.println("│2. 로그인                                               │");
+		System.out.println("│3. 로그아웃                                             │");
+		System.out.println("│4. 마이 페이지                                          │");
+		System.out.printf("│9. 이전 단계로                                          │\n");
+		System.out.print("└────────────────────────────┘\n");
+		System.out.printf("  * 선택 : ");
 		selectNum = sc.nextInt();
 		System.out.println();
 
@@ -57,7 +60,9 @@ public class MemberController extends Controller {
 		case 9:
 			break;
 		default:
-			System.out.println("다시 입력해주세요.\n");
+			System.out.println("┌────────────────────────────┐");
+			System.out.println("│ * 다시 입력해주세요.                                   │");
+			System.out.println("└────────────────────────────┘\n");
 			break;
 		}
 	}
@@ -91,18 +96,29 @@ public class MemberController extends Controller {
 
 	private void doJoin() {
 		if (Container.getSession().isLogined()) {
-			System.out.println("이미 로그인 되어있습니다. 로그아웃 후 이용해주세요.\n");
+			System.out.println("┌────────────────────────────┐");
+			System.out.println("│ * 이미 로그인 되어있습니다. 로그아웃 후 이용해주세요.  │");
+			System.out.println("└────────────────────────────┘\n");
 			return;
 		}
 		String loginId = null;
 
-		System.out.printf("=== === === J O I N === === ===\n\n");
+		System.out.printf("┌─J O I N ───────────────────────┐\n│%56s│\n", " ");
+		System.out.println("│ * 아이디                                               │");
+		System.out.println("│ * 비밀번호                                             │");
+		System.out.println("│ * 비밀번호 확인                                        │");
+		System.out.println("│ * 이메일                                               │");
+		System.out.println("│ * 닉네임                                               │");
+		System.out.println("│ * 이름                                                 │");
+		System.out.print("└────────────────────────────┘\n");
 		while (true) {
-			System.out.printf("아이디 : ");
+			System.out.printf("   * 아이디 : ");
 			loginId = sc.next();
 
 			if (isJoinableLoginId(loginId) == false) {
-				System.out.printf("%s(은)는 이미 사용중인 아이디입니다.\n", loginId);
+				System.out.println("┌────────────────────────────┐");
+				System.out.printf("│ * %s(은)는 이미 사용 중인 아이디입니다.               │\n", loginId);
+				System.out.println("└────────────────────────────┘");
 				continue;
 			}
 			break;
@@ -112,13 +128,15 @@ public class MemberController extends Controller {
 		String loginPwConfirm = null;
 
 		while (true) {
-			System.out.printf("비밀번호 : ");
+			System.out.printf("   * 비밀번호 : ");
 			loginPw = sc.next();
-			System.out.printf("비밀번호 확인 : ");
+			System.out.printf("   * 비밀번호 확인 : ");
 			loginPwConfirm = sc.next();
 
 			if (loginPw.equals(loginPwConfirm) == false) {
-				System.out.println("비밀번호를 다시 입력해주세요.");
+				System.out.println("┌────────────────────────────┐");
+				System.out.println("│ * 비밀번호를 다시 입력해주세요.                        │");
+				System.out.println("└────────────────────────────┘");
 				continue;
 			}
 			break;
@@ -127,11 +145,13 @@ public class MemberController extends Controller {
 		String eMail = null;
 
 		while (true) {
-			System.out.printf("이메일 : ");
+			System.out.printf("   * 이메일 : ");
 			eMail = sc.next();
 
 			if (isJoinableEmail(eMail) == false) {
-				System.out.printf("%s(은)는 이미 사용중인 이메일입니다.\n", eMail);
+				System.out.println("┌────────────────────────────┐");
+				System.out.printf("│ * %s(은)는 이미 사용 중인 이메일입니다.               │\n", eMail);
+				System.out.println("└────────────────────────────┘");
 				continue;
 			}
 			break;
@@ -140,48 +160,62 @@ public class MemberController extends Controller {
 		String nickName = null;
 
 		while (true) {
-			System.out.printf("닉네임 : ");
+			System.out.printf("   * 닉네임 : ");
 			nickName = sc.next();
 
 			if (isJoinableNickName(nickName) == false) {
-				System.out.printf("%s(은)는 이미 사용중인 닉네임입니다.\n", nickName);
+				System.out.println("┌────────────────────────────┐");
+				System.out.printf("│ * %s(은)는 이미 사용 중인 닉네임입니다.               │\n", nickName);
+				System.out.println("└────────────────────────────┘");
 				continue;
 			}
 			break;
 		}
 
-		System.out.printf("이름 : ");
+		System.out.printf("   * 이름 : ");
 		String name = sc.next();
+		
+		String grade = "bronze";
 
-		memberService.join(loginId, eMail, nickName, loginPw, name);
-
-		System.out.printf("\n%s님, MovieMent 회원이 되신걸 환영합니다 :D\n\n", name);
+		memberService.join(loginId, eMail, nickName, loginPw, name, grade);
+		System.out.println("\n┌────────────────────────────┐");
+		System.out.printf("│ * %s님, MovieMent 회원이 되신걸 환영합니다 :D      │\n", name);
+		System.out.println("└────────────────────────────┘");
 	}
 
 	public void doLogin() {
 		if (Container.getSession().isLogined()) {
-			System.out.println("이미 로그인 되어있습니다.\n");
+			System.out.println("┌────────────────────────────┐");
+			System.out.println("│ * 이미 로그인 되어있습니다.                            │");
+			System.out.println("└────────────────────────────┘\n");
 			return;
 		}
 		String loginId;
 		String loginPw;
 		Member member;
-		System.out.printf("=== === === L O G I N === === ===\n\n");
+		System.out.printf("┌─L O G I N ──────────────────────┐\n│%56s│\n", " ");
+		System.out.println("│ * 아이디                                               │");
+		System.out.println("│ * 비밀번호                                             │");
+		System.out.print("└────────────────────────────┘\n");
 		while (true) {
-			System.out.printf("아이디 : ");
+			System.out.printf("  * 아이디 : ");
 			loginId = sc.next();
-			System.out.printf("비밀번호 : ");
+			System.out.printf("  * 비밀번호 : ");
 			loginPw = sc.next();
 			System.out.println();
 			member = memberService.getMemberByLoginId(loginId);
 
 			if (member == null) {
-				System.out.println("해당 회원은 존재하지 않습니다.\n");
+				System.out.println("┌────────────────────────────┐");
+				System.out.println("│ * 해당 회원은 존재하지 않습니다.                       │");
+				System.out.println("└────────────────────────────┘\n");
 				continue;
 			}
 
 			if (member.loginPw.equals(loginPw) == false) {
-				System.out.println("비밀번호를 다시 확인해주세요.\n");
+				System.out.println("┌────────────────────────────┐");
+				System.out.println("│ * 비밀번호를 다시 확인해주세요.                        │");
+				System.out.println("└────────────────────────────┘\n");
 				continue;
 			}
 			break;
@@ -189,31 +223,39 @@ public class MemberController extends Controller {
 
 		session.setLoginedMember(member);
 		Member loginedMember = session.getLoginedMember();
-
-		System.out.printf("어서 오세요 %s님, 환영합니다 :D\n\n", loginedMember.name);
+		System.out.println("┌────────────────────────────┐");
+		System.out.printf("│ * 어서 오세요 %s님, 환영합니다 :D                  │\n", loginedMember.name);
+		System.out.println("└────────────────────────────┘\n");
 	}
 
 	private void doLogout() {
 		if (Container.getSession().isLogined() == false) {
-			System.out.println("로그인 후 이용해주세요.\n");
+			System.out.println("┌────────────────────────────┐");
+			System.out.println("│ * 로그인 후 이용해주세요.                              │");
+			System.out.println("└────────────────────────────┘\n");
 			return;
 		}
 		session.setLoginedMember(null);
-		System.out.println("로그아웃 되었습니다.\n");
+		System.out.println("┌────────────────────────────┐");
+		System.out.println("│ * 로그아웃 되었습니다.                                 │");
+		System.out.println("└────────────────────────────┘\n");
 	}
 
 	private void showMyPage() {
 		if (Container.getSession().isLogined() == false) {
-			System.out.println("로그인 후 이용해주세요.\n");
+			System.out.println("┌────────────────────────────┐");
+			System.out.println("│ * 로그인 후 이용해주세요.                              │");
+			System.out.println("└────────────────────────────┘\n");
 			return;
 		}
 
-		System.out.print("=== === === M Y P A G E === === ===\n\n");
-		System.out.print("1. 회원정보 수정\n");
-		System.out.print("2. 나의 예매 현황\n");
-		System.out.print("3. 나의 리뷰\n");
-		System.out.print("9. 이전 단계로\n\n");
-		System.out.print("선택 : ");
+		System.out.printf("┌─M Y P A G E ─────────────────────┐\n│%56s│\n", " ");
+		System.out.println("│1. 회원정보 수정                                        │");
+		System.out.println("│2. 나의 예매 현황                                       │");
+		System.out.println("│3. 나의 리뷰                                            │");
+		System.out.println("│9. 이전 단계로                                          │");
+		System.out.println("└────────────────────────────┘");
+		System.out.print(" * 선택 : ");
 		int selectNum = sc.nextInt();
 		System.out.println();
 
@@ -237,18 +279,21 @@ public class MemberController extends Controller {
 
 	private void doModify() {
 		if (Container.getSession().isLogined() == false) {
-			System.out.println("로그인 후 이용해주세요.\n");
+			System.out.println("┌────────────────────────────┐");
+			System.out.println("│ * 로그인 후 이용해주세요.                              │");
+			System.out.println("└────────────────────────────┘\n");
 		}
 
-		System.out.println("=== === === 회원 정보 수정 === === ===\n");
-		System.out.print("1. 내 정보\n");
-		System.out.print("2. 비밀번호 변경\n");
-		System.out.print("3. 이메일 변경\n");
-		System.out.print("4. 닉네임 변경\n");
-		System.out.print("5. 회원 탈퇴\n");
-		System.out.print("9. 이전 단계로\n\n");
+		System.out.printf("┌─회원 정보 수정────────────────────┐\n│%56s│\n", " ");
+		System.out.println("│1. 내 정보                                              │");
+		System.out.println("│2. 비밀번호 변경                                        │");
+		System.out.println("│3. 이메일 변경                                          │");
+		System.out.println("│4. 닉네임 변경                                          │");
+		System.out.println("│5. 회원 탈퇴                                            │");
+		System.out.println("│9. 이전 단계로                                          │");
+		System.out.println("└────────────────────────────┘");
 
-		System.out.print("선택 : ");
+		System.out.print(" * 선택 : ");
 		int selectNum = sc.nextInt();
 		System.out.println();
 
@@ -281,17 +326,17 @@ public class MemberController extends Controller {
 		Member loginedMember = Container.getSession().getLoginedMember();
 		int selectNum;
 
-		System.out.printf("=== === === 내 정보 === === ===\n\n");
-		System.out.printf("가입일 : %s\n", loginedMember.regDate);
-		System.out.printf("이름   : %s\n", loginedMember.name);
-		System.out.printf("아이디 : %s\n", loginedMember.loginId);
-		System.out.printf("로그인 비밀번호 : %s\n", loginedMember.loginPw);
-		System.out.printf("Email : %s@gmail.com\n", loginedMember.eMail);
-		System.out.printf("닉네임 : %s\n", loginedMember.nickName);
-		System.out.println();
-		System.out.printf("9. 이전 단계로\n");
+		System.out.printf("┌─내 정보 ───────────────────────┐\n│%56s│\n", " ");
+		System.out.printf("│ * 가입일   : %-42s│\n", loginedMember.regDate);
+		System.out.printf("│ * 닉네임   : %-39s│\n", loginedMember.nickName);
+		System.out.printf("│ * 이름     : %-39s│\n", loginedMember.name);
+		System.out.printf("│ * 아이디   : %-42s│\n", loginedMember.loginId);
+		System.out.printf("│ * 비밀번호 : %-42s│\n", loginedMember.loginPw);
+		System.out.printf("│ * Email    : %s@gmail.com                             │\n│%56s│\n", loginedMember.eMail, " ");
+		System.out.println("│                                         9. 이전 단계로 │");
+		System.out.println("└────────────────────────────┘");
 
-		System.out.print("입력 : ");
+		System.out.print(" * 입력 : ");
 		selectNum = sc.nextInt();
 		System.out.println();
 
@@ -300,7 +345,9 @@ public class MemberController extends Controller {
 				doModify();
 				break;
 			} else {
-				System.out.println("\n 다시 입력해주세요.");
+				System.out.println("┌────────────────────────────┐");
+				System.out.println("│ * 다시 입력해주세요.                                   │");
+				System.out.println("└────────────────────────────┘\n");
 				continue;
 			}
 		}
@@ -316,24 +363,29 @@ public class MemberController extends Controller {
 			return;
 		}
 
-		System.out.printf("=== === === 나의 예매 현황 === === ===\n\n");
+		System.out.printf("┌─나의 예매 현황────────────────────┐\n│%56s│\n", " ");
 		MovieSeat seat;
-		
-		System.out.print("번호 | 좌석 |       닉네임 | 영화 이름");
+
+		System.out.print("├────────────────────────────┤\n│번호 │ 좌석 │ 영화 이름                               │\n└────────────────────────────┘");
 		for (int i = 0; i <= getForPrintSeat.size() - 1; i++) {
 			seat = getForPrintSeat.get(i);
 			selectMovieNum = seat.id;
-			System.out.printf("\n%3d  | %3s  | %9s | %s", seat.id, seat.seat, seat.nickName, seat.movieTitle);
+			System.out.printf("\n   %-3d │ %3s  │ %s ", i + 1, seat.seat, seat.movieTitle);
 		}
-		System.out.println("\n");
+//		System.out.println("\n└────────────────────────────┘\n");
 
 		while (true) {
-			System.out.println("취소를 원하는 영화의 번호를 입력해주세요.");
-			System.out.print("입력 : ");
+			try {
+			System.out.println("\n┌────────────────────────────┐");
+			System.out.println("│ * 취소를 원하는 티켓의 번호를 입력해주세요.            │");
+			System.out.println("└────────────────────────────┘");
+			System.out.print(" * 입력 : ");
 			selectNum = sc.nextInt();
-
-			if (selectNum > getForPrintSeat.size()-1) {
-				System.out.println("\n존재하지 않는 번호입니다. 확인 후 다시 입력해주세요.\n");
+			
+			} catch (IndexOutOfBoundsException e) {
+				System.out.println("┌────────────────────────────┐");
+				System.out.println("│ * 존재하지 않는 번호입니다. 확인 후 다시 입력해주세요.\n");
+				System.out.println("└────────────────────────────┘");
 				continue;
 			}
 			break;
@@ -341,20 +393,28 @@ public class MemberController extends Controller {
 		System.out.println();
 
 		while (true) {
-			System.out.println("1. 예매 취소");
-			System.out.println("9. 이전 단계로");
-			System.out.print("입력 : ");
+			seat = getForPrintSeat.get(selectNum - 1);
+			System.out.println(" ─────────────────────────────");
+			System.out.printf(" %-3d │ %3s  │ %-7s │ %-21s \n", selectNum, seat.seat, seat.nickName, seat.movieTitle);
+			System.out.println("┌────────────────────────────┐");
+			System.out.println("│ * 위 티켓을 정말로 취소하시겠습니까?                   │");
+			System.out.printf("│ * 이 작업은 되돌릴 수 없습니다.                        │\n");
+			System.out.printf("│ * 예매 당시 지불 금액 : %d원                        │\n│%56s│\n", (int)seat.price, " ");
+			System.out.println("│1. 예매 취소                                            │");
+			System.out.println("│9. 이전 단계로                                          │");
+			System.out.println("└────────────────────────────┘");
+			System.out.print(" * 입력 : ");
 			selectMovieNum = sc.nextInt();
 			if (selectMovieNum != 1 && selectMovieNum != 9) {
-				System.out.println("\n다시 입력하세요.\n");
+				System.out.println("┌────────────────────────────┐");
+				System.out.println("│ * 다시 입력해주세요.                                   │");
+				System.out.println("└────────────────────────────┘\n");
 				continue;
 			}
 			if (selectMovieNum == 1) {
-				seat = getForPrintSeat.get(selectNum);
-				seat.id = selectNum;
-				System.out.printf("selectNum : %d, seat.id : %d, seat.movieTitle : %s", selectNum, seat.id, seat.movieTitle);
-//				Container.seatService.doDeleteSeat(selectNum);
-//				System.out.printf("\n[%s]예매가 취소 되었습니다.\n\n", seat.movieTitle);
+//				seat = getForPrintSeat.get(selectNum-1);
+				Container.seatService.doDeleteSeat(seat.id);
+				System.out.printf("\n[%s, %s]예매가 취소 되었습니다.\n\n", seat.movieTitle, seat.seat);
 				return;
 			}
 			if (selectMovieNum == 9) {
@@ -365,7 +425,9 @@ public class MemberController extends Controller {
 
 	private void showReviewList() {
 		if (Container.getSession().isLogined() == false) {
-			System.out.println("로그인 후 이용해주세요.\n");
+			System.out.println("┌────────────────────────────┐");
+			System.out.println("│ * 로그인 후 이용해주세요.                              │");
+			System.out.println("└────────────────────────────┘\n");
 			return;
 		}
 
@@ -508,8 +570,8 @@ public class MemberController extends Controller {
 		}
 
 		while (true) {
-			System.err.print("\n회원 탈퇴 시 복구가 불가능하며, 정보는 모두 사라집니다.\n");
-			System.err.print("탈퇴를 원하시면 '회원탈퇴'를 입력해주세요.\n");
+			System.out.print("\n회원 탈퇴 시 복구가 불가능하며, 정보는 모두 사라집니다.\n");
+			System.out.print("탈퇴를 원하시면 '회원탈퇴'를 입력해주세요.\n");
 			System.out.print("입력 : ");
 			confirmToDeleteTrueOrNot = sc.next();
 
@@ -519,6 +581,7 @@ public class MemberController extends Controller {
 			}
 			if (confirmToDeleteTrueOrNot.equals("회원탈퇴")) {
 				memberService.doDelete(loginedMember.id);
+				doLogout();
 				loginedMember = null;
 				System.out.println("\n회원 탈퇴가 정상적으로 처리되었습니다. 이용해주셔서 감사합니다.\n");
 				break;

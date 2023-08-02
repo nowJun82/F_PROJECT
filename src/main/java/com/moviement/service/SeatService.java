@@ -16,19 +16,23 @@ public class SeatService {
 	public List<MovieSeat> getForPrintSeats(String nickName) {
 		return seatDao.getForPrintSeats(nickName);
 	}
-	
+
 	public MovieSeat checkSeat(String movieTitle) {
 		return seatDao.checkSeat(movieTitle);
 	}
-	
+
 	public MovieSeat getForPrintSeat(String movieTitle, String[] seatStrArr) {
 		return seatDao.getForPrintSeat(movieTitle, seatStrArr);
 	}
 
-	public int doTicketing(String movieTitle, String[] seats) {
-		return seatDao.doTicketing(movieTitle, seats);
+	public MovieSeat getForPrintSeat(int selectNum) {
+		return seatDao.getForPrintSeat(selectNum);
 	}
-	
+
+	public int doTicketing(String movieTitle, String[] seats, float personPrice) {
+		return seatDao.doTicketing(movieTitle, seats, personPrice);
+	}
+
 	public MovieSeat getSeat(int id) {
 		return seatDao.getSeat(id);
 	}
@@ -44,7 +48,7 @@ public class SeatService {
 	public void doDeleteSeat(int id) {
 		seatDao.doDelete(id);
 	}
-	
+
 	public int doWrite() {
 		return seatDao.doWrite();
 	}

@@ -23,7 +23,8 @@ public class MemberDao {
 		sb.append(String.format("loginPw = '%s', ", member.loginPw));
 		sb.append(String.format("Email = '%s', ", member.eMail));
 		sb.append(String.format("nickName = '%s', ", member.nickName));
-		sb.append(String.format("`name` = '%s' ", member.name));
+		sb.append(String.format("`name` = '%s', ", member.name));
+		sb.append(String.format("`grade` = '%s' ", member.grade));
 
 		return dbConnection.insert(sb.toString());
 	}

@@ -28,17 +28,18 @@ public class App {
 		while (true) {
 			Controller controller = null;
 
-			System.out.printf("=== === === M O V I E M E N T === === ===\n\n");
-			System.out.println("1. 회원 페이지");
-			System.out.println("2. 영화 페이지");
-			System.out.println("3. 리뷰 페이지");
-			System.out.printf("0. 종료\n\n");
-			System.out.printf("선택 : ");
+			System.out.printf("┌─M O V I E M E N T ──────────────────┐\n│%56s│\n", " ");
+			System.out.println("│1. 회원 페이지                                          │");
+			System.out.println("│2. 영화 페이지                                          │");
+			System.out.println("│3. 리뷰 페이지                                          │");
+			System.out.printf("│0. 종료                                                 │\n");
+			System.out.print("└────────────────────────────┘\n");
+			System.out.printf("  * 선택 : ");
 			int selectNum = isc.nextInt();
 			System.out.println();
 
 			if (selectNum == 0) {
-				System.out.print("이용해주셔서 감사합니다. 프로그램을 종료합니다.");
+				System.err.print("이용해주셔서 감사합니다. 프로그램을 종료합니다.");
 				break;
 			} else if (selectNum == 1) {
 				controller = memberController;
@@ -48,7 +49,9 @@ public class App {
 				controller = reviewController;
 			}
 			else {
-				System.out.println("다시 입력해주세요.\n");
+				System.out.println("┌────────────────────────────┐");
+				System.out.println("│ * 다시 입력해주세요.                                   │");
+				System.out.println("└────────────────────────────┘\n");
 				continue;
 			}
 			controller.doAction(selectNum);

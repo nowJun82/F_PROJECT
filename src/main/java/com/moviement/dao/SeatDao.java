@@ -17,7 +17,7 @@ public class SeatDao extends Dao {
 		dbConnection = Container.getDBConnection();
 	}
 
-	public int doTicketing(String movieTitle, String[] seats) {
+	public int doTicketing(String movieTitle, String[] seats, float personPrice) {
 		Member loginedMember = Container.getSession().getLoginedMember();
 
 		int id;
@@ -33,6 +33,7 @@ public class SeatDao extends Dao {
 			sb.append(String.format("seat = '%s', ", seat));
 			sb.append(String.format("movieTitle = '%s', ", movieTitle));
 			sb.append(String.format("nickName = '%s', ", loginedMember.nickName));
+			sb.append(String.format("price = '%.2f', ", personPrice));
 			sb.append(String.format("enabledSeat = %d; ", 1));
 			
 			dbConnection.insert(sb.toString());
@@ -159,5 +160,19 @@ public class SeatDao extends Dao {
 			return new MovieSeat(row);
 		}
 		return null;
+	}
+	
+	public MovieSeat getForPrintSeat(int selectNum) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(String.format("SELECT * FROM movieSeats "));
+		sb.append(String.format("WHERE id = '%d' ", selectNum));
+
+		Map<String, Object> row = dbConnection.selectRow(sb.toString());
+
+		if (row.isEmpty()) {
+			return null;
+		}
+		return new MovieSeat(row);
 	}
 }
